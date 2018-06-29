@@ -21,6 +21,10 @@
 .idea/**/gradle.xml
 .idea/**/libraries
 
+#vcs
+.idea/vcs.xml
+sheets/*
+
 # CMake
 cmake-build-*/
 
