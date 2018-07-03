@@ -1,4 +1,6 @@
 import json
+import pandas as pd
+import numpy as np
 titleList = []
 with open('../sheets/titlebasics.tsv') as infile, open('../JSON/titlebasics.json', 'w') as outfile:
     keys = ["id", "titleType", "primaryTitle", "originalTitle",
