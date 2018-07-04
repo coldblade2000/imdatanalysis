@@ -67,18 +67,26 @@ with open("../sheets/principals.tsv") as openfile:
             tsplit = line.split("\t")
             for i, x in enumerate(tsplit):
                 person[keys[i]] = x
-            if count == 10000:
-                pd.DataFrame.to_csv(titleDF, '../sheets/Processed/TItlesidk.tsv', sep='\t')
+            # if count == 90000:
+            #     count = 0
+            #     pd.DataFrame.to_csv(titleDF, '../sheets/Processed/TItlesidk.tsv', sep='\t')
             if person['tconst'] == currentid:
                  personList.append(person)
             elif currentid == '':
                 currentid = person['tconst']
                 personList.append(person)
             else:
-                titleDF.at[currentid, 'billing'] = personList
-                print(titleDF.at[person['tconst'], 'billing'])
-                personList = [person]
-                currentid = person['tconst']
+                try:
+                    titleDF.at[currentid, 'billing'] = personList
+                    print(titleDF.at[person['tconst'], 'billing'])
+                    personList = [person]
+                    currentid = person['tconst']
+                except KeyError:
+                    # with open('../sheets/Processed/errors.txt','w') as openfile:
+                    #     openfile.write("%s%s" % currentid, "\n")
+                    #     openfile.flush()
+                    #     openfile.close()
+                    print("Error with ", currentid)
             print(person)
             count+=1
         else:
