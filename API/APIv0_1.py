@@ -3,9 +3,12 @@ import json
 j = []
 
 with open("./ExampleJSON", "r") as js:
-    j = js.readlines()
+    j = json.load(js)
+#jstr = ""
+#j = [x.strip("\n") for x in j]
 
-    #json.loads("j")
 
-    print(j)
+#jsan = json.loads(j)
+
+print(j["colors"])
 
