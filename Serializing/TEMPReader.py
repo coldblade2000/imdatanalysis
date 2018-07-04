@@ -1,4 +1,5 @@
 import json
+import numpy as np
 import timeit
 import pandas as pd
 
@@ -50,37 +51,58 @@ def processSheets():
     pd.DataFrame.to_csv(result, "../sheets/Processed/Titles.tsv", sep="\t")
 
 titleList=[]
+titleDF = pd.DataFrame.from_csv("../sheets/Processed/Titles.tsv", sep="\t")
+print('Finished loading')
+titleDF['billing'] = np.nan
+titleDF['billing'] = titleDF['billing'].astype(object)
 with open("../sheets/principals.tsv") as openfile:
     first = True
     keys=["tconst", "ordering", "nconst", "category", "job", "characters"]
+    currentid = ''
+    count = 0
+    personList = []
     for line in openfile:
         if (not first):
-            title = {}
+            person = {}
             tsplit = line.split("\t")
             for i, x in enumerate(tsplit):
-                title[keys[i]] = x
-
-
+                person[keys[i]] = x
+            if count == 10000:
+                pd.DataFrame.to_csv(titleDF, '../sheets/Processed/TItlesidk.tsv', sep='\t')
+            if person['tconst'] == currentid:
+                 personList.append(person)
+            elif currentid == '':
+                currentid = person['tconst']
+                personList.append(person)
+            else:
+                titleDF.at[currentid, 'billing'] = personList
+                print(titleDF.at[person['tconst'], 'billing'])
+                personList = [person]
+                currentid = person['tconst']
+            print(person)
+            count+=1
         else:
             first = False
     openfile.close()
-#titleList.reverse()
-currentid = ""
-individualTitleArray = []
-titleDF = pd.DataFrame.from_csv("../sheets/Processed/Titles.tsv", sep="\t")
-#titleDF['billing'] = []
-newColumn = pd.DataFrame(index=titleDF.index)
-titleDF.join(newColumn)
-for i, item in enumerate(titleList):
-    if item["tconst"] == currentid:
-        individualTitleArray.append(item)
-    elif currentid == "":
-        currentid = item["tconst"]
-        individualTitleArray.append(item)
-    else:
-        titleDF.at[currentid,"billing"] = individualTitleArray
-        print(individualTitleArray)
-        individualTitleArray=[item]
-        currentid = item["tconst"]
-
-titleDF.to_csv("../sheets/Processed/TitlesExp.tsv", sep="\t")
+pd.DataFrame.to_csv(titleDF,'../sheets/Processed/TItlesidk.tsv', sep='\t')
+#
+# input("?")
+# #titleList.reverse()
+# currentid = ""
+# individualTitleArray = []
+# #titleDF['billing'] = []
+# newColumn = pd.DataFrame(index=titleDF.index)
+# titleDF.join(newColumn)
+# for i, item in enumerate(titleList):
+#     if item["tconst"] == currentid:
+#         individualTitleArray.append(item)
+#     elif currentid == "":
+#         currentid = item["tconst"]
+#         individualTitleArray.append(item)
+#     else:
+#         titleDF.at[currentid,"billing"] = individualTitleArray
+#         print(individualTitleArray)
+#         individualTitleArray=[item]
+#         currentid = item["tconst"]
+#
+# titleDF.to_csv("../sheets/Processed/TitlesExp.tsv", sep="\t")
