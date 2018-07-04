@@ -52,30 +52,35 @@ def processSheets():
 titleList=[]
 with open("../sheets/principals.tsv") as openfile:
     first = True
-    keys=["tconst", "ordering", "nconst","category", "job characters"]
-
-    for i,line in enumerate(openfile):
-        if not first:
+    keys=["tconst", "ordering", "nconst", "category", "job", "characters"]
+    for line in openfile:
+        if (not first):
             title = {}
             tsplit = line.split("\t")
             for i, x in enumerate(tsplit):
                 title[keys[i]] = x
-            titleList.append(title)
-            print(title)
+
+
         else:
             first = False
     openfile.close()
 #titleList.reverse()
 currentid = ""
 individualTitleArray = []
-for i, item in enumerate(titleList[1:]):
-    if item["tconst"]==currentid:
+titleDF = pd.DataFrame.from_csv("../sheets/Processed/Titles.tsv", sep="\t")
+#titleDF['billing'] = []
+newColumn = pd.DataFrame(index=titleDF.index)
+titleDF.join(newColumn)
+for i, item in enumerate(titleList):
+    if item["tconst"] == currentid:
         individualTitleArray.append(item)
-    elif item["tconst"]=="":
+    elif currentid == "":
         currentid = item["tconst"]
         individualTitleArray.append(item)
     else:
-
+        titleDF.at[currentid,"billing"] = individualTitleArray
+        print(individualTitleArray)
         individualTitleArray=[item]
         currentid = item["tconst"]
-        
+
+titleDF.to_csv("../sheets/Processed/TitlesExp.tsv", sep="\t")
