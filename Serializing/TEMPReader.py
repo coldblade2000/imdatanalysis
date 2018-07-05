@@ -59,28 +59,24 @@ with open("../sheets/principals.tsv") as openfile:
     first = True
     keys=["tconst", "ordering", "nconst", "category", "job", "characters"]
     currentid = ''
-    count = 0
     personList = []
     for line in openfile:
         if (not first):
-            person = {}
+            person = []
             tsplit = line.split("\t")
             for i, x in enumerate(tsplit):
-                person[keys[i]] = x
-            # if count == 90000:
-            #     count = 0
-            #     pd.DataFrame.to_csv(titleDF, '../sheets/Processed/TItlesidk.tsv', sep='\t')
-            if person['tconst'] == currentid:
+                person.append(x)  # Creates a dictionary for each cast/crew member.
+            if person[0] == currentid:
                  personList.append(person)
             elif currentid == '':
-                currentid = person['tconst']
+                currentid = person[0]
                 personList.append(person)
             else:
                 try:
                     titleDF.at[currentid, 'billing'] = personList
-                    print(titleDF.at[person['tconst'], 'billing'])
+                    print(titleDF.at[person[0], 'billing'], " : ", currentid)
                     personList = [person]
-                    currentid = person['tconst']
+                    currentid = person[0]
                 except KeyError:
                     # with open('../sheets/Processed/errors.txt','w') as openfile:
                     #     openfile.write("%s%s" % currentid, "\n")
@@ -88,9 +84,9 @@ with open("../sheets/principals.tsv") as openfile:
                     #     openfile.close()
                     print("Error with ", currentid)
             print(person)
-            count+=1
         else:
             first = False
+        print("finished loading, now exporting sheet")
     openfile.close()
 pd.DataFrame.to_csv(titleDF,'../sheets/Processed/TItlesidk.tsv', sep='\t')
 #
