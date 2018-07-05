@@ -49,3 +49,10 @@ def getneighbors(trainingset, testinstance, k):
         neighbors.append(distances[x][0])
     return neighbors
 
+
+trainset = [[2, 2, 2, 'a'], [4, 4, 4, 'b']]
+testinstance = [5, 5, 5]
+k = 1
+neighbors = getneighbors(trainset, testinstance, 1)
+print(neighbors)
+
