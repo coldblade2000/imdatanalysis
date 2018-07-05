@@ -22,7 +22,7 @@
 .idea/**/libraries
 
 #vcs
-.idea/vcs.xml
+.idea/*
 sheets/*
 
 # CMake
