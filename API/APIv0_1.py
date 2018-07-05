@@ -1,4 +1,14 @@
-titleID = 0
-genre = 0
-director = 0
-actor = 0
+import json
+
+j = []
+
+with open("./ExampleJSON", "r") as js:
+    j = json.load(js)
+#jstr = ""
+#j = [x.strip("\n") for x in j]
+
+
+#jsan = json.loads(j)
+
+print(j["colors"])
+
