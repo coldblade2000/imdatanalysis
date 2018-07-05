@@ -56,3 +56,19 @@ k = 1
 neighbors = getneighbors(trainset, testinstance, 1)
 print(neighbors)
 
+
+def getresponse(neighbors):
+    classvotes = {}
+    for x in range(len(neighbors)):
+        response = neighbors[x][-1]
+        if response in classvotes:
+            classvotes[response] += 1
+        else:
+            classvotes[response] = 1
+            sortedVotes = sorted(classvotes.iteritems(), key=operator.itemgetter(1), reverse=True)
+    return sortedvotes[0][0]
+
+
+neighbors = [[1,1,1,'a'], [2,2,2,'a'], [3,3,3,'b']]
+response = getresponse(neighbors)
+print(response)
