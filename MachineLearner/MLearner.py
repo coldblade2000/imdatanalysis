@@ -11,24 +11,19 @@ id = tf.placeholder(tf.float32, shape=[None,1])
 year = tf.placeholder(tf.float32, shape=[None,1])
 rating = tf.placeholder(tf.float32, shape=[None, 1])
 genres = tf.placeholder(tf.float32, shape=[None, len(genreList)])
-
 inputs = tf.concat([id, year, rating, genres], axis=1)
+
 #hidden layers
-h1 = tf.layers.dense(inputs, 50, activation="relu")
+h1 = tf.layers.dense(inputs, 30, activation="relu")
 h2 = tf.layers.dense(h1, 5, activation="relu")
-
-
-
 
 #K-near
 # K=3 #how many neighbors
 
-
 # nearest_neighbors=tf.Variable(tf.zeros([K]))
 rawOutputs = tf.layers.dense(h2,RECOMENDATION_COUNT, activation=tf.nn.relu)
 
-# outputs = tf.cast(rawOutputs, tf.int32)
-
+outputs = tf.cast(rawOutputs, tf.int32)
 
 loss = tf.add(tf.squared_difference())
 
@@ -47,4 +42,5 @@ with tf.Session() as sess:
 
 
     for index, row in
-        sess.run(outputs, {id: "tt0000015", year: 1605,})
+        sess.run(outputs, {id: titles["tconst"], year: titles["startYear",
+                rating : titles["averageRating", genres: genres]})

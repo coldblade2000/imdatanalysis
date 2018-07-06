@@ -5,6 +5,8 @@ import pandas as pd
 
 id = "tt8630480"
 # count = 28
+genreList = ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Game-Show', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']
+
 
 def processSheets():
     titlebasics = pd.DataFrame.from_csv("../sheets/titlebasics.tsv", sep="\t", header=0)
@@ -33,7 +35,7 @@ def genres():
 
 
 # genres()
-titleDF = pd.DataFrame.from_csv("../sheets/Processed/Titles.tsv", sep="\t")
+# titleDF = pd.DataFrame.from_csv("../sheets/Processed/Titles.tsv", sep="\t")
 
 
 def principals():
@@ -48,7 +50,7 @@ def principals():
     # open principals.tsv to append its contents to titles.tsv
     with open("../sheets/principals.tsv") as openfile:
         first = True # bool to avoid iterating through the header of principals.tsv
-        keys = ["tconst", "ordering", "nconst", "category", "job", "characters"]
+        # keys = ["tconst", "ordering", "nconst", "category", "job", "characters"]
         currentId = ''
         personList = []
         for line in openfile:
@@ -76,3 +78,30 @@ def principals():
             print("finished loading, now exporting sheet")
         openfile.close()
     pd.DataFrame.to_csv(titleDF, '../sheets/Processed/TItlesidk.tsv', sep='\t')
+
+def getBinaryArray(rawGen):
+    list = str(rawGen).split(",")
+    array = np.zeros(28)
+    for genre in list:
+        for i,item in enumerate(genreList):
+            if genre == item:
+                array[i] = 1
+    return array
+
+
+
+    # load titles spreadsheet
+titleDF = pd.DataFrame.from_csv("../sheets/Processed/TitlesTrunc.tsv", sep="\t", header=0)
+titleDF['genres'] = titleDF['genres'].astype(object)
+print('Finished loading')
+titleDF['genres'] = titleDF['genres'].map(getBinaryArray)
+print("starting export")
+print(titleDF.tail(8))
+titleDF.to_csv("../sheets/Processed/TitlesTrunc2.tsv", sep="\t")
+print(titleDF.head(8))
+
+# Add empty 'billing' column to spreadsheets
+# titleDF['billing'] = np.nan
+# titleDF['billing'] = titleDF['billing'].astype(object)
+
+# open principals.tsv to append its contents to titles.tsv
