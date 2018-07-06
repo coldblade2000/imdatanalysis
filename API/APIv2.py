@@ -3,6 +3,12 @@ import random
 import math
 import operator
 
+# References
+# https://kevinzakka.github.io/2016/07/13/k-nearest-neighbor/
+# https://www.ritchieng.com/machine-learning-k-nearest-neighbors-knn/
+# https://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/
+# http://stackabuse.com/k-nearest-neighbors-algorithm-in-python-and-scikit-learn/
+
 
 def loaddataset(filename, split, trainingset=[], testset=[]):
     with open(filename, 'r') as csvfile:
