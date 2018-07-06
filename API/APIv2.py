@@ -17,11 +17,11 @@ def loaddataset(filename, split, trainingset=[], testset=[]):
                 testset.append(dataset[x])
 
 
-trainingSet = []
-testSet = []
-loaddataset('iris_data.csv', 0.66, trainingSet, testSet)
-print('Train: ' + repr(len(trainingSet)))
-print('Test: ' + repr(len(testSet)))
+trainingset = []
+testset = []
+loaddataset('iris_data.csv', 0.66, trainingset, testset)
+print('Train: ' + repr(len(trainingset)))
+print('Test: ' + repr(len(testset)))
 
 
 def euclideandistance(instance1, instance2, length):
@@ -40,9 +40,9 @@ print('Distance: ' + repr(distance))
 def getneighbors(trainingset, testinstance, k):
     distances = []
     length = len(testinstance)-1
-    for x in range(len(trainingSet)):
-        dist = euclideandistance(testinstance, trainingSet[x], length)
-        distances.append((trainingSet[x], dist))
+    for x in range(len(trainingset)):
+        dist = euclideandistance(testinstance, trainingset[x], length)
+        distances.append((trainingset[x], dist))
     distances.sort(key=operator.itemgetter(1))
     neighbors = []
     for x in range(k):
@@ -76,14 +76,16 @@ print(response)
 
 def getaccuracy(testset, predictions):
     correct = 0
+    print("len is ", len(testset))
     for x in range(len(testset)):
-        if testset[x][] is predictions[x]:
+        print('Test Set: ', testset[x], 'Predictions', predictions[x],"x is ",x)
+        if testset[x][-1:] is predictions[x]:
             correct += 1
     return (correct/float(len(testset))) * 100.0
 
 
 testset = [[1, 1, 1, 'a'], [2, 2, 2, 'a'], [3, 3, 3, 'b']]
 predictions = ['a', 'a', 'a']
-accuracy = getaccuracy(testSet, predictions)
+accuracy = getaccuracy(testset, predictions)
 print(accuracy)
 
