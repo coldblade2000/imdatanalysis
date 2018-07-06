@@ -65,10 +65,25 @@ def getresponse(neighbors):
             classvotes[response] += 1
         else:
             classvotes[response] = 1
-            sortedVotes = sorted(classvotes.iteritems(), key=operator.itemgetter(1), reverse=True)
+            sortedvotes = sorted(classvotes.items(), key=lambda x: x[1], reverse=True)
     return sortedvotes[0][0]
 
 
-neighbors = [[1,1,1,'a'], [2,2,2,'a'], [3,3,3,'b']]
+neighbors = [[1, 1, 1, 'a'], [2, 2, 2, 'a'], [3, 3, 3, 'b']]
 response = getresponse(neighbors)
 print(response)
+
+
+def getaccuracy(testset, predictions):
+    correct = 0
+    for x in range(len(testset)):
+        if testset[x][] is predictions[x]:
+            correct += 1
+    return (correct/float(len(testset))) * 100.0
+
+
+testset = [[1, 1, 1, 'a'], [2, 2, 2, 'a'], [3, 3, 3, 'b']]
+predictions = ['a', 'a', 'a']
+accuracy = getaccuracy(testSet, predictions)
+print(accuracy)
+
