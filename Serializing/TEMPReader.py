@@ -90,16 +90,42 @@ def getBinaryArray(rawGen):
 
 
 
-    # load titles spreadsheet
-titleDF = pd.DataFrame.from_csv("../sheets/Processed/TitlesTrunc.tsv", sep="\t", header=0)
-titleDF['genres'] = titleDF['genres'].astype(object)
-print('Finished loading')
-titleDF['genres'] = titleDF['genres'].map(getBinaryArray)
-print("starting export")
-print(titleDF.tail(8))
-titleDF.to_csv("../sheets/Processed/TitlesTrunc2.tsv", sep="\t")
-print(titleDF.head(8))
+def addBinaryGenres():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t", header=0)
+    titleDF['genres'] = titleDF['genres'].astype(object)
+    print('Finished loading')
+    titleDF['genres'] = titleDF['genres'].map(getBinaryArray)
+    print("starting export")
+    print(titleDF.tail(8))
+    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    print(titleDF.head(8))
 
+def isolateMovies():
+    titles = pd.DataFrame.from_csv("../sheets/Processed/Movies.tsv",sep="\t", header=0)
+    titles = titles[titles.endYear.str.contains("N") == True]
+    #titles = titles[titles.seasonNumber.isnull() == True]
+    titles.to_csv("../sheets/Processed/Movies2.tsv", sep="\t")
+
+def truncSheets():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesFull.tsv", sep="\t")
+    print("Loaded")
+    titleDF.drop("primaryTitle", axis=1, inplace=True)
+    titleDF.drop("originalTitle", axis=1, inplace=True)
+    titleDF.drop("isAdult", axis=1, inplace=True)
+    titleDF.drop("endYear", axis=1, inplace=True)
+    titleDF.drop("numVotes", axis=1, inplace=True)
+    titleDF.drop("directors", axis=1, inplace=True)
+    titleDF.drop("writers", axis=1, inplace=True)
+    titleDF.drop("parentTconst", axis=1, inplace=True)
+    titleDF.drop("seasonNumber", axis=1, inplace=True)
+    titleDF.drop("episodeNumber", axis=1, inplace=True)
+    print("Dropped columns")
+    titleDF.to_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t")
+    titleDF.head(3)
+
+
+# titleDF= pd.DataFrame.from_csv("../sheets/Processed/TitlesFull.tsv")
+addBinaryGenres()
 # Add empty 'billing' column to spreadsheets
 # titleDF['billing'] = np.nan
 # titleDF['billing'] = titleDF['billing'].astype(object)

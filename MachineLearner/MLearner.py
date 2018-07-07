@@ -4,7 +4,10 @@ RECOMENDATION_COUNT = 30
 
 uRatings = pd.DataFrame.from_csv("../sheets/Processed/userratings.tsv")
 titles = pd.DataFrame.from_csv("../sheets/Processed/TitlesFull.tsv", sep='\t', header=0)
-genreList = ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Game-Show', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']
+genreList = ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime',
+             'Documentary', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Game-Show', 'History', 'Horror',
+             'Music', 'Musical', 'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Short',
+             'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']
 
 uRatingsTensor = tf.convert_to_tensor(uRatings)
 id = tf.placeholder(tf.float32, shape=[None,1])
@@ -12,6 +15,8 @@ year = tf.placeholder(tf.float32, shape=[None,1])
 rating = tf.placeholder(tf.float32, shape=[None, 1])
 genres = tf.placeholder(tf.float32, shape=[None, len(genreList)])
 inputs = tf.concat([id, year, rating, genres], axis=1)
+
+
 
 #hidden layers
 h1 = tf.layers.dense(inputs, 30, activation="relu")
