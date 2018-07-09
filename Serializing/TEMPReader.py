@@ -1,6 +1,7 @@
 import json
 import numpy as np
 import timeit
+import ast
 import pandas as pd
 
 id = "tt8630480"
@@ -100,6 +101,92 @@ def addBinaryGenres():
     titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
     print(titleDF.head(8))
 
+def createListFromString(string):
+    outstr = str(string)
+    outstr = outstr.replace("\n","")
+    outstr = outstr.replace("[ ","[")
+    outstr = outstr.replace(".  ",",")
+    outstr = outstr.replace(".","")
+    array = ast.literal_eval(outstr)
+    return array
+
+def addBinaryGenresProperly():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t", header=0)
+    print('Finished loading')
+    series = pd.DataFrame(titleDF['genres'].map(createListFromString),columns=genreList)
+    series.rename(lambda x:genreList[x])
+    print("starting export")
+    print(titleDF.tail(8))
+    titleDF.to_csv("../sheets/Processed/MoviesML5.tsv", sep="\t")
+    print(titleDF.head(8))
+
+def addBinaryGenresIter():
+    with open("../sheets/Processed/MoviesAttempt.tsv", "w") as writefile, open("../sheets/Processed/MoviesTrunc.tsv") as openfile:
+        first = True
+        titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t", header=0)
+        for itr in genreList:
+            titleDF[itr] = 0
+        print(titleDF.head(3))
+        for idx, line in enumerate(openfile.readlines()):
+            if not first:
+                tSplit = line.split("\t")
+                array = getBinaryArray(tSplit[3])
+                for idx2, genre in enumerate(array):
+                    if genre == 1:
+                        titleDF.ix[idx-1,genreList[idx2]] = genre
+                # writeline = ""
+                # for i in tSplit:#write line to file
+                #     writeline = writeline + i + "\t"
+                # writefile.write(writeline)
+            else:
+                first = False
+        titleDF.to_csv("../sheets/Processed/MoviesAttempt3.tsv", sep="\t")
+
+
+
+def convertSlowly():
+    with open("../sheets/Processed/MoviesAttempt.tsv", "w") as writefile, open("../sheets/Processed/MoviesML.tsv", "r") as openfile:
+        first = True # bool to avoid iterating through the header of principals.tsv
+        for line in openfile.readlines():
+            if not first:
+                tSplit = line.split("\t")
+                print(len(tSplit))
+                tSplit[3] = tSplit[3].replace("[ ", "").replace(".  ", "\t").replace(".]", "")
+                writeline = ""
+                for i in tSplit:
+                    writeline = writeline + i +"\t"
+                writefile.write(writeline)
+                # person = []
+                # tSplit = line.split("\t")
+                # for i, x in enumerate(tSplit):
+                #     person.append(x)  # Creates a dictionary for each cast/crew member.
+                # if person[0] == currentId:
+                #     personList.append(person)
+                # elif currentId == '':
+                #     currentId = person[0]
+                #     personList.append(person)
+                # else:
+                #     try:
+                #         titleDF.at[currentId, 'billing'] = personList
+                #         print(titleDF.at[person[0], 'billing'], " : ", currentId)
+                #         personList = [person]
+                #         currentId = person[0]
+                #     except KeyError:
+                #         print("Error with ", currentId)
+                # print(person)
+            else:
+                linestr = str(line)
+                new = ""
+                for x in genreList:
+                    new = new + x + "\t"
+                new = new[:-2]
+                writefile.write(linestr.replace("genres", new))
+                first = False
+            print("finished loading, now exporting sheet")
+        openfile.close()
+        writefile.flush()
+        writefile.close()
+
 def isolateMovies():
     titles = pd.DataFrame.from_csv("../sheets/Processed/Movies.tsv",sep="\t", header=0)
     titles = titles[titles.endYear.str.contains("N") == True]
@@ -123,9 +210,29 @@ def truncSheets():
     titleDF.to_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t")
     titleDF.head(3)
 
+def fixGenres():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    for idx, genre in enumerate(genreList):
+        # titleDF.genres.str[2:-2].
+        titleDF[genre] = np.nan
+        titleDF[genre] = titleDF[genre].str
+
+def numerateTConst():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    print('Finished loading')
+    titleDF.reset_index(inplace=True)
+    print(titleDF.head(3))
+
+    # Add empty 'billing' column to spreadsheets
+    titleDF.tconst = titleDF.tconst.str[2:]
+    titleDF.set_index("tconst", inplace=True)
+    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    print(titleDF.head(3))
+
+
 
 # titleDF= pd.DataFrame.from_csv("../sheets/Processed/TitlesFull.tsv")
-addBinaryGenres()
+addBinaryGenresIter()
 # Add empty 'billing' column to spreadsheets
 # titleDF['billing'] = np.nan
 # titleDF['billing'] = titleDF['billing'].astype(object)
