@@ -1,6 +1,13 @@
+""" DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED DEPRECATED
+This file is old and ugly, don't use it. It's here for antiquity's sake, but dont delete it
+"""
+
 import pandas as pd
 import tensorflow as tf
 RECOMENDATION_COUNT = 30
+
+tf.enable_eager_execution()
+
 
 uRatings = pd.DataFrame.from_csv("../sheets/Processed/userratings.tsv")
 titles = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep='\t', header=0)
@@ -9,6 +16,8 @@ genreList = ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy',
              'Music', 'Musical', 'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Short',
              'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']
 
+columns = ['tconst', 'startYear', "runtimeMinutes","averageRating"] + genreList
+
 filename_queue = tf.train.string_input_producer(["MoviesML.tsv"])
 
 reader = tf.TextLineReader()
@@ -16,25 +25,14 @@ key, value = reader.read(filename_queue)
 
 # Default values, in case of empty columns. Also specifies the type of the
 # decoded result.
-record_defaults = [[1], [1], [1], [1], [1]]
-col1, col2, col3, col4, col5 = tf.decode_csv(
-    value, record_defaults=record_defaults)
-features = tf.stack([col1, col2, col3, col4])
+record_defaults = [[1], [1980], [90], [5.0], [1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0],[1.0]]
+fields = tf.decode_csv(
+value, record_defaults=record_defaults, field_delim="\t")
+features = dict(zip(columns,fields))
 
-with tf.Session() as sess:
-  # Start populating the filename queue.
-  coord = tf.train.Coordinator()
-  threads = tf.train.start_queue_runners(coord=coord)
+averageRating = features.pop('averageRating')
 
-  for i in range(1200):
-    # Retrieve a single instance:
-    example, label = sess.run([features, col5])
-
-  coord.request_stop()
-  coord.join(threads)
-
-
-
+dataset = tf.data.
 
 
 

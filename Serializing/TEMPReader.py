@@ -229,11 +229,43 @@ def numerateTConst():
     titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
     print(titleDF.head(3))
 
+def dropExtraColumns():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    billing = titleDF[['billing']].copy()
+    print('Finished loading')
+    titleDF.reset_index(inplace=True)
+    print(titleDF.head(3))
+    # Add empty 'billing' column to spreadsheets
+    titleDF.drop("genres", axis=1, inplace=True)
+    titleDF.drop("billing", axis=1, inplace=True)
+    input("Everything alright?")
+    print("saving")
+    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    print("saved moviesml")
+    billing.to_csv("../sheets/Processed/MoviesBilling.tsv", sep="\t")
+    print(titleDF.head(3))
 
+def fixruntimeMinutes():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    titleDF.set_index("tconst", inplace=True)
+    titleDF.replace(str(titleDF.at[4,"runtimeMinutes"]), "",inplace=True)
+    titleDF["runtimeMinutes"] = pd.to_numeric(titleDF['runtimeMinutes'], errors='coerce')
+
+    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+
+
+def dropEmptyRatings():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    titleDF = titleDF[titleDF['runtimeMinutes'].notnull()]
+    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+
+def onlyrand5000():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    titleDF = titleDF.sample(n=5000,)
+    titleDF.to_csv("../sheets/Processed/MoviesMLShort2.tsv", sep="\t")
 
 # titleDF= pd.DataFrame.from_csv("../sheets/Processed/TitlesFull.tsv")
-addBinaryGenresIter()
-# Add empty 'billing' column to spreadsheets
+onlyrand5000()# Add empty 'billing' column to spreadsheets
 # titleDF['billing'] = np.nan
 # titleDF['billing'] = titleDF['billing'].astype(object)
 
