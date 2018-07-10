@@ -3,13 +3,15 @@ import tensorflow as tf
 import numpy as np
 import tensorflow.contrib.eager as tfe
 import matplotlib.pyplot as plt
+import os
 
-tf.enable_eager_execution()
+tfe.enable_eager_execution()
 
 #### https://colab.research.google.com/github/tensorflow/models/blob/master/samples/core/tutorials/eager/custom_training_walkthrough.ipynb#scrollTo=tMAT4DcMPwI-
 
 """ TODO
 * Find out how to adapt the code to give us a predicted score instead of trying to fit into a category, ask alex
+#eagar model tf checkpoints saving and loading
 * Save and load the trained model, so we don't have to train it every time
 * Play around with the number of neurons and hidden layers
 * Find out wtf is happening with the loss function, as it always gives a huge number at the first epoch then 1.066 every subsequent epoch
@@ -44,7 +46,7 @@ label_name = columns[3]
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
 train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['../sheets/Processed/MoviesML.tsv'],
+    ['../sheets/Processed/MoviesMLShort2.tsv'],
     batch_size,
     column_names=columns,
     label_name=label_name,
@@ -62,8 +64,8 @@ features, labels = next(iter(train_dataset))
 
 # Creates a neural network model. First hidden layer has 17 neurons, the second 10 and it has 1 output
 model = tf.keras.Sequential([
-  tf.keras.layers.Dense(17, activation=tf.nn.relu, input_shape=(INPUT_SIZE,)),  # input shape required
-  tf.keras.layers.Dense(10, activation=tf.nn.relu),
+  tf.keras.layers.Dense(20, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
+  tf.keras.layers.Dense(16, activation=tf.nn.relu),
   tf.keras.layers.Dense(1)  # 1 output neuron as rating
 ])
 
@@ -117,29 +119,49 @@ train_loss_results = []
 ## train_accuracy_results = []
 
 num_epochs = 300 + 1  # The amount of epochs the code will run for
+save_frequency = 50
 
-for epoch in range(num_epochs): # Training the model, will train for 300 epochs
-    epoch_loss_avg = tfe.metrics.Mean()  # No idea
-    ## epoch_accuracy = tfe.metrics.Accuracy()
+#saver = tf.train.Saver(var_list=,max_to_keep=2)
+folder_path = 'trained_model/'
 
-    # Training loop - using batches of 64
-    for x, y in train_dataset:
-        # Optimize the model
-        loss_value, grads = grad(model, x, y)
-        optimizer.apply_gradients(zip(grads, model.variables),
-                                  global_step)
+if not os.path.exists(folder_path):
+    os.makedirs(folder_path)
 
-        # Track progress
-        epoch_loss_avg(loss_value)  # add current batch loss
-        # compare predicted label to actual label
-        ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
+with tf.Session() as sess:
 
-    # end epoch
-    train_loss_results.append(epoch_loss_avg.result())
-    ## train_accuracy_results.append(epoch_accuracy.result())
+    for epoch in range(num_epochs): # Training the model, will train for 300 epochs
+        epoch_loss_avg = tfe.metrics.Mean()  # No idea
+        ## epoch_accuracy = tfe.metrics.Accuracy()
 
-    if epoch % 10 == 0:  # Print loss every 10 epochs
-        print("Epoch {:03d}: Loss: {:.3f}".format(epoch,epoch_loss_avg.result()))
+        # Training loop - using batches of 64
+        for x, y in train_dataset:
+            # Optimize the model
+            loss_value, grads = grad(model, x, y)
+            optimizer.apply_gradients(zip(grads, model.variables),
+                                      global_step)
+
+            # Track progress
+            epoch_loss_avg(loss_value)  # add current batch loss
+            # compare predicted label to actual label
+            ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
+
+        # end epoch
+        train_loss_results.append(epoch_loss_avg.result())
+        ## train_accuracy_results.append(epoch_accuracy.result())
+
+        if epoch % 10 == 0:  # Print loss every 10 epochs
+            print("Epoch {:03d}: Loss: {:.3f}".format(epoch,epoch_loss_avg.result()))
+
+'''     # Update our running tally of scores.
+        if episode % save_frequency == 0 and episode != 0:
+            # TO DO: SAVE MODEL            #Place this line  in the training code above so that our agent saves its progress periodically and at the end
+            saver.save(sess, folder_path + 'pg-checkpoint', episode)
+            print('Actions used: {}\nMean score:{}'.format(actions, np.mean(total_rewards[-save_frequency:])))
+
+        print('Training finished.')
+        # TO DO: SAVE MODEL
+        # Place this line  in the training code above so that our agent saves its progress periodically and at the end
+        saver.save(sess, folder_path + 'pg-checkpoint', episode) '''
 
 
 # Plot out the loss
