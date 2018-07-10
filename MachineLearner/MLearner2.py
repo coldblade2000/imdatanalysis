@@ -64,7 +64,7 @@ features, labels = next(iter(train_dataset))
 model = tf.keras.Sequential([
   tf.keras.layers.Dense(17, activation=tf.nn.relu, input_shape=(INPUT_SIZE,)),  # input shape required
   tf.keras.layers.Dense(10, activation=tf.nn.relu),
-  tf.keras.layers.Dense(1)
+  tf.keras.layers.Dense(1)  # 1 output neuron as rating
 ])
 
 # Predictions, may or may not be debug code
@@ -82,10 +82,9 @@ def loss(model, x, y):
     # Reshapes the tensor returned by the model from a (64, 1) tensor to an (n,) array, usually a (64,) tensor but n is set to
     # be the shape length of y, to avoid runtime errors once the final batch is reached, as there won't be enough entries to fill
     # up the (64, ) shape, but for example it would be a (23, ) or (51, ) tensor.
-    y_ = tf.reshape(y_, shape=(tf.shape(y)[0],))
+    y_ = tf.reshape(y_, shape=(tf.shape(y)[0], ))
 
     return tf.losses.absolute_difference(labels=y, predictions=y_)
-
 
 # defines l as the loss
 l = loss(model, features, labels)
@@ -115,12 +114,12 @@ print("Step: {},         Loss: {}".format(global_step.numpy(),
 
 # keep results for plotting
 train_loss_results = []
-train_accuracy_results = []
+## train_accuracy_results = []
 
 num_epochs = 300 + 1  # The amount of epochs the code will run for
 
 for epoch in range(num_epochs): # Training the model, will train for 300 epochs
-    epoch_loss_avg = tfe.metrics.Mean()
+    epoch_loss_avg = tfe.metrics.Mean()  # No idea
     ## epoch_accuracy = tfe.metrics.Accuracy()
 
     # Training loop - using batches of 64
