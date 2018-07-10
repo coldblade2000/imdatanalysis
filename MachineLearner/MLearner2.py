@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 
 tf.enable_eager_execution()
 
+#### https://colab.research.google.com/github/tensorflow/models/blob/master/samples/core/tutorials/eager/custom_training_walkthrough.ipynb#scrollTo=tMAT4DcMPwI-
+
 """ TODO
 * Find out how to adapt the code to give us a predicted score instead of trying to fit into a category, ask alex
 * Save and load the trained model, so we don't have to train it every time
@@ -16,7 +18,6 @@ tf.enable_eager_execution()
 * Make a for loop that would run code 30 or so times to give us a list of highly rated movies
 * Take in the corrected ratings from the userratings.tsv file and use them to retrain the machine learner. Right now they're only trained 
     based on the IMDB ratings. Training multiple times using the same list of userratings would probably do the trick, but IDK
-* 
 """
 
 # A list of every genre in alphabetical order
@@ -56,6 +57,7 @@ train_dataset = train_dataset.map(pack_features_vector)  # Runs the pack_feature
 INPUT_SIZE = 28 + 3  # How many values are being passed as input
 
 # IDK what this does, and at this point I'm too afraid to find out
+# Maybe sets the features and labels variables
 features, labels = next(iter(train_dataset))
 
 # Creates a neural network model. First hidden layer has 17 neurons, the second 10 and it has 1 output
