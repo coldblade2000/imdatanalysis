@@ -63,10 +63,10 @@ INPUT_SIZE = 28 + 3  # How many values are being passed as input
 features, labels = next(iter(train_dataset))
 
 # Creates a neural network model. First hidden layer has 17 neurons, the second 10 and it has 1 output
-model = tf.keras.Sequential([
-  tf.keras.layers.Dense(20, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
-  tf.keras.layers.Dense(16, activation=tf.nn.relu),
-  tf.keras.layers.Dense(1)  # 1 output neuron as rating
+model = tf.Sequential([
+  tf.layers.Dense(21, activation=tf.nn.relu, input_shape=(INPUT_SIZE,)),  # input shape required
+  tf.layers.Dense(19, activation=tf.nn.tanh),
+  tf.layers.Dense(1)  # 1 output neuron as rating
 ])
 
 # Predictions, may or may not be debug code
