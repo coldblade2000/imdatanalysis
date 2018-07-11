@@ -5,7 +5,10 @@ import tensorflow.contrib.eager as tfe
 import matplotlib.pyplot as plt
 import os
 
+
 tfe.enable_eager_execution()
+
+sess_cpu = tf.Session(config = tf.ConfigProto(device_count={'GPU': 0}))
 
 #### https://colab.research.google.com/github/tensorflow/models/blob/master/samples/core/tutorials/eager/custom_training_walkthrough.ipynb#scrollTo=tMAT4DcMPwI-
 
@@ -63,10 +66,14 @@ INPUT_SIZE = 28 + 3  # How many values are being passed as input
 features, labels = next(iter(train_dataset))
 
 # Creates a neural network model. First hidden layer has 17 neurons, the second 10 and it has 1 output
-model = tf.Sequential([
-  tf.layers.Dense(21, activation=tf.nn.relu, input_shape=(INPUT_SIZE,)),  # input shape required
-  tf.layers.Dense(19, activation=tf.nn.tanh),
-  tf.layers.Dense(1)  # 1 output neuron as rating
+'''List of numbers that are too big:
+
+'''
+model = tf.keras.Sequential([
+  tf.keras.layers.Dense(128, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
+  #tf.keras.layers.Dense(18, activation=tf.nn.tanh),
+  #tf.keras.layers.Dense(18, activation=tf.nn.tanh),
+  tf.keras.layers.Dense(1)  # 1 output neuron as rating
 ])
 
 # Predictions, may or may not be debug code
