@@ -120,7 +120,7 @@ def addBinaryGenresProperly():
     print(titleDF.head(8))
 
 def addBinaryGenresIter():
-    with open("../sheets/Processed/MoviesAttempt.tsv", "w") as writefile, open("../sheets/Processed/MoviesTrunc.tsv") as openfile:
+    with open("../sheets/Processed/MoviesTrunc.tsv") as openfile:
         first = True
         titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t", header=0)
         for itr in genreList:
@@ -133,14 +133,9 @@ def addBinaryGenresIter():
                 for idx2, genre in enumerate(array):
                     if genre == 1:
                         titleDF.ix[idx-1,genreList[idx2]] = genre
-                # writeline = ""
-                # for i in tSplit:#write line to file
-                #     writeline = writeline + i + "\t"
-                # writefile.write(writeline)
             else:
                 first = False
         titleDF.to_csv("../sheets/Processed/MoviesAttempt3.tsv", sep="\t")
-
 
 
 def convertSlowly():
@@ -189,7 +184,6 @@ def convertSlowly():
 def isolateMovies():
     titles = pd.DataFrame.from_csv("../sheets/Processed/Movies.tsv",sep="\t", header=0)
     titles = titles[titles.endYear.str.contains("N") == True]
-    #titles = titles[titles.seasonNumber.isnull() == True]
     titles.to_csv("../sheets/Processed/Movies2.tsv", sep="\t")
 
 def truncSheets():
