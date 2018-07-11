@@ -8,7 +8,7 @@ import os
 
 tfe.enable_eager_execution()
 
-sess_cpu = tf.Session(config = tf.ConfigProto(device_count={'GPU': 0}))
+#sess_cpu = tf.Session(config = tf.ConfigProto(device_count={'GPU': 0}))
 
 #### https://colab.research.google.com/github/tensorflow/models/blob/master/samples/core/tutorials/eager/custom_training_walkthrough.ipynb#scrollTo=tMAT4DcMPwI-
 
@@ -70,9 +70,9 @@ features, labels = next(iter(train_dataset))
 
 '''
 model = tf.keras.Sequential([
-  tf.keras.layers.Dense(128, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
-  #tf.keras.layers.Dense(18, activation=tf.nn.tanh),
-  #tf.keras.layers.Dense(18, activation=tf.nn.tanh),
+  tf.keras.layers.Dense(32, activation=tf.nn.relu, input_shape=(INPUT_SIZE,)),  # input shape required
+  tf.keras.layers.Dense(32, activation=tf.nn.tanh),
+  #tf.keras.layers.Dense(16, activation=tf.nn.tanh),
   tf.keras.layers.Dense(1)  # 1 output neuron as rating
 ])
 
@@ -105,7 +105,7 @@ def grad(model, inputs, targets):
         loss_value = loss(model, inputs, targets)
     return loss_value, tape.gradient(loss_value, model.trainable_variables)
 
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)  # Optimizer
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0001)  # Optimizer
 
 global_step = tf.train.get_or_create_global_step() # dunno
 
