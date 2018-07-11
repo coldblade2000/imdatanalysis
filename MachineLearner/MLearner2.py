@@ -105,7 +105,7 @@ def grad(model, inputs, targets):
         loss_value = loss(model, inputs, targets)
     return loss_value, tape.gradient(loss_value, model.trainable_variables)
 
-optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)  # Optimizer
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0001)  # Optimizer
 
 global_step = tf.train.get_or_create_global_step() # dunno
 
@@ -125,7 +125,7 @@ print("Step: {},         Loss: {}".format(global_step.numpy(),
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 500 + 1  # The amount of epochs the code will run for
+num_epochs = 1000 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
 #saver = tf.train.Saver(var_list=,max_to_keep=2)
