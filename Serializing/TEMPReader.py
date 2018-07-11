@@ -90,7 +90,6 @@ def getBinaryArray(rawGen):
     return array
 
 
-
 def addBinaryGenres():
     titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t", header=0)
     titleDF['genres'] = titleDF['genres'].astype(object)
@@ -251,7 +250,7 @@ def fixruntimeMinutes():
     titleDF.replace(str(titleDF.at[4,"runtimeMinutes"]), "",inplace=True)
     titleDF["runtimeMinutes"] = pd.to_numeric(titleDF['runtimeMinutes'], errors='coerce')
 
-    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    itleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
 
 
 def dropEmptyRatings():

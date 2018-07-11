@@ -22,7 +22,6 @@
 .idea/**/libraries
 
 #vcs
-.idea/*
 sheets/*
 
 # CMake
