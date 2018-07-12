@@ -50,7 +50,7 @@ label_name = columns[3]
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
 train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['../sheets/Processed/MoviesML.tsv'],
+    ['../sheets/Processed/MoviesMLShort2.tsv'],
     batch_size,
     column_names=columns,
     label_name=label_name,
@@ -190,7 +190,8 @@ movie_list = []
 for x in train_dataset:
     y = model(x)
     movie_list.append(x[0], y)
-sorted(iterable, [x], [-reversed])
+movie_list = sorted(movie_list, reverse = True)
+print(movie_list)
 
 
 
