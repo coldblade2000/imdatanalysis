@@ -23,6 +23,7 @@ tfe.enable_eager_execution()
 * Make a for loop that would run code 30 or so times to give us a list of highly rated movies
 * Take in the corrected ratings from the userratings.tsv file and use them to retrain the machine learner. Right now they're only trained 
     based on the IMDB ratings. Training multiple times using the same list of userratings would probably do the trick, but IDK
+*Pass all the movies through the loss order in decending order
 """
 
 # A list of every genre in alphabetical order
@@ -49,7 +50,7 @@ label_name = columns[3]
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
 train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['../sheets/Processed/MoviesMLShort2.tsv'],
+    ['../sheets/Processed/MoviesML.tsv'],
     batch_size,
     column_names=columns,
     label_name=label_name,
@@ -66,19 +67,17 @@ INPUT_SIZE = 28 + 3  # How many values are being passed as input
 features, labels = next(iter(train_dataset))
 
 # Creates a neural network model. First hidden layer has 17 neurons, the second 10 and it has 1 output
-'''List of numbers that are too big:
 
-'''
 model = tf.keras.Sequential([
   #tf.keras.layers.Dense(796, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
-  tf.keras.layers.Dense(800, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 306 min = 1.88
+  tf.keras.layers.Dense(800, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)), #under1.1 = 306 min = 1.88
   #tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 231 min = 1.089
   #tf.keras.layers.Dense(950, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 16
   #tf.keras.layers.Dense(900, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 304 min 1.088
   #tf.keras.layers.Dense(750, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)), TOO LOW
   #tf.keras.layers.Dense(775, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)), TOO LOW
   #tf.keras.layers.Dense(825, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),
-  tf.keras.layers.Dense(512, activation=tf.nn.tanh),
+  #tf.keras.layers.Dense(200, activation=tf.nn.relu),
   #tf.keras.layers.Dense(128, activation=tf.nn.tanh),
   tf.keras.layers.Dense(1)  # 1 output neuron as rating
 ])
@@ -132,7 +131,7 @@ print("Step: {},         Loss: {}".format(global_step.numpy(),
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 500 + 1  # The amount of epochs the code will run for
+num_epochs = 300 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
 #saver = tf.train.Saver(var_list=,max_to_keep=2)
@@ -167,8 +166,8 @@ with tf.Session() as sess:
         ## train_accuracy_results.append(epoch_accuracy.result())
 
 
-        if epoch % 10 == 0:  # Print loss every 10 epochs
-            print("Epoch {:03d}: Loss: {:.3f}".format(epoch,epoch_loss_avg.result()))
+        #if epoch % 10 == 0:  # Print loss every 10 epochs
+        print("Epoch {:03d}: Loss: {:.3f}".format(epoch,epoch_loss_avg.result()))
         if epoch_loss_avg.result()  < 1.100:
             tb += 1
         if epoch_loss_avg.result() < min:
@@ -185,6 +184,14 @@ with tf.Session() as sess:
         # TO DO: SAVE MODEL
         # Place this line  in the training code above so that our agent saves its progress periodically and at the end
         saver.save(sess, folder_path + 'pg-checkpoint', episode) '''
+
+movie_list = []
+
+for x in train_dataset:
+    y = model(x)
+    movie_list.append(x[0], y)
+sorted(iterable, [x], [-reversed])
+
 
 
 # Plot out the loss
