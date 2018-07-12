@@ -15,11 +15,11 @@ tfe.enable_eager_execution()
 """ TODO
 * Find out how to adapt the code to give us a predicted score instead of trying to fit into a category, ask alex
 #eagar model tf checkpoints saving and loading
-* Save and load the trained model, so we don't have to train it every time
-* Play around with the number of neurons and hidden layers
-* Find out wtf is happening with the loss function, as it always gives a huge number at the first epoch then 1.066 every subsequent epoch
+* D Save and load the trained model, so we don't have to train it every time
+* D Play around with the number of neurons and hidden layers
+* DONE Find out wtf is happening with the loss function, as it always gives a huge number at the first epoch then 1.066 every subsequent epoch
 * Manage to predict ratings based on different inputs
-* Implement a training dataset
+* DONE Implement a training dataset
 * Make a for loop that would run code 30 or so times to give us a list of highly rated movies
 * Take in the corrected ratings from the userratings.tsv file and use them to retrain the machine learner. Right now they're only trained 
     based on the IMDB ratings. Training multiple times using the same list of userratings would probably do the trick, but IDK
@@ -70,7 +70,12 @@ features, labels = next(iter(train_dataset))
 
 '''
 model = tf.keras.Sequential([
-  tf.keras.layers.Dense(796, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
+  #tf.keras.layers.Dense(796, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
+  #tf.keras.layers.Dense(800, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 213
+  #tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 313
+  tf.keras.layers.Dense(950, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 16
+  #tf.keras.layers.Dense(900, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 304
+  #tf.keras.layers.Dense(750, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 16
   #tf.keras.layers.Dense(512, activation=tf.nn.tanh),
   #tf.keras.layers.Dense(128, activation=tf.nn.tanh),
   tf.keras.layers.Dense(1)  # 1 output neuron as rating
@@ -125,7 +130,7 @@ print("Step: {},         Loss: {}".format(global_step.numpy(),
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 1000 + 1  # The amount of epochs the code will run for
+num_epochs = 500 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
 #saver = tf.train.Saver(var_list=,max_to_keep=2)
@@ -135,6 +140,9 @@ if not os.path.exists(folder_path):
     os.makedirs(folder_path)
 
 with tf.Session() as sess:
+
+    tb = 0
+    min = 10
 
     for epoch in range(num_epochs): # Training the model, will train for 300 epochs
         epoch_loss_avg = tfe.metrics.Mean()  # No idea
@@ -156,8 +164,14 @@ with tf.Session() as sess:
         train_loss_results.append(epoch_loss_avg.result())
         ## train_accuracy_results.append(epoch_accuracy.result())
 
+
         if epoch % 10 == 0:  # Print loss every 10 epochs
             print("Epoch {:03d}: Loss: {:.3f}".format(epoch,epoch_loss_avg.result()))
+        if epoch_loss_avg.result()  < 1.100:
+            tb += 1
+        if epoch_loss_avg.result() < min:
+            min = epoch_loss_avg.result()
+    print("Epoch beneath 1.1: " + str(tb) + " Lowest Value: " + str(min))
 
 '''     # Update our running tally of scores.
         if episode % save_frequency == 0 and episode != 0:
