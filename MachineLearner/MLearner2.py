@@ -15,7 +15,7 @@ tfe.enable_eager_execution()
 """ TODO
 * Find out how to adapt the code to give us a predicted score instead of trying to fit into a category, ask alex
 #eagar model tf checkpoints saving and loading
-* D Save and load the trained model, so we don't have to train it every time
+* DONE Save and load the trained model, so we don't have to train it every time
 * D Play around with the number of neurons and hidden layers
 * DONE Find out wtf is happening with the loss function, as it always gives a huge number at the first epoch then 1.066 every subsequent epoch
 * Manage to predict ratings based on different inputs
@@ -71,12 +71,14 @@ features, labels = next(iter(train_dataset))
 '''
 model = tf.keras.Sequential([
   #tf.keras.layers.Dense(796, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
-  #tf.keras.layers.Dense(800, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 213
-  tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 313 min = 1.086
+  tf.keras.layers.Dense(800, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 306 min = 1.88
+  #tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 231 min = 1.089
   #tf.keras.layers.Dense(950, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 16
   #tf.keras.layers.Dense(900, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 304 min 1.088
-  #tf.keras.layers.Dense(750, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 16
-  #tf.keras.layers.Dense(512, activation=tf.nn.tanh),
+  #tf.keras.layers.Dense(750, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)), TOO LOW
+  #tf.keras.layers.Dense(775, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)), TOO LOW
+  #tf.keras.layers.Dense(825, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),
+  tf.keras.layers.Dense(512, activation=tf.nn.tanh),
   #tf.keras.layers.Dense(128, activation=tf.nn.tanh),
   tf.keras.layers.Dense(1)  # 1 output neuron as rating
 ])
