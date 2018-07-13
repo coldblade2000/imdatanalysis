@@ -36,13 +36,13 @@ class Waiting(Screen):
 class HowTo(Screen):
     pass
 
-class HowTo2(Screen):
+class Home(Screen):
     pass
 
-class HowTo3(Screen):
+class Discover(Screen):
     pass
 
-class HowTo4(Screen):
+class Settings(Screen):
     pass
 
 # class CustomDropDown(DropDown):
@@ -64,9 +64,9 @@ sm.add_widget(MovieInput2(name='movie_input2'))
 sm.add_widget(Waiting(name='waiting'))
 
 sm.add_widget(HowTo(name='how_to'))
-sm.add_widget(HowTo2(name='how_to2'))
-sm.add_widget(HowTo3(name='how_to3'))
-sm.add_widget(HowTo4(name='how_to4'))
+sm.add_widget(Home(name='home'))
+sm.add_widget(Discover(name='discover'))
+sm.add_widget(Settings(name='settings'))
 
 class MovieApp(App):
     def build(self):

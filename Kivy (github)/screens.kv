@@ -177,7 +177,9 @@
         BoxLayout:
             orientation: 'horizontal'
             Button:
+#                background_normal: ''
                 text: 'you tell us what movies you have seen'
+                on_release: app.root.current = 'home'
             Label:
                 text: ' '
 
@@ -202,14 +204,63 @@
             Label:
                 text: ' '
 
-<HowTo2>:
-    name: 'how_to2'
+<Home>:
+    name: 'home'
+    Label:
+        text: 'Home'
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, 0.1
+
+        Button:
+            text: 'Discover'
+            on_release: app.root.current = 'discover'
+
+        Button:
+            text: 'Home'
+
+        Button:
+            text: 'Settings'
+            on_release: app.root.current = 'settings'
 
 
-<HowTo3>:
-    name: 'how_to3'
+<Discover>:
+    name: 'discover'
+    Label:
+        text: 'Discover'
 
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, 0.1
 
-<HowTo4>:
-    name: 'how_to4'
+        Button:
+            text: 'Discover'
 
+        Button:
+            text: 'Home'
+            on_release: app.root.current = 'home'
+
+        Button:
+            text: 'Settings'
+            on_release: app.root.current = 'settings'
+
+<Settings>:
+    name: 'settings'
+    Label:
+        text: 'Settings'
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, 0.1
+
+        Button:
+            text: 'Discover'
+            on_release: app.root.current = 'discover'
+
+        Button:
+            text: 'Home'
+            on_release: app.root.current = 'home'
+
+        Button:
+            text: 'Settings'
