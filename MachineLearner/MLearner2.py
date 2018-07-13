@@ -18,12 +18,15 @@ import os
 * DONE Save and load the trained model, so we don't have to train it every time
 * DONE Play around with the number of neurons and hidden layers
 * DONE Find out wtf is happening with the loss function, as it always gives a huge number at the first epoch then 1.066 every subsequent epoch
+
 * Manage to predict ratings based on different inputs
 * DONE Implement a training dataset
+
 * Make a for loop that would run code 30 or so times to give us a list of highly rated movies
 * Take in the corrected ratings from the userratings.tsv file and use them to retrain the machine learner. Right now they're only trained 
     based on the IMDB ratings. Training multiple times using the same list of userratings would probably do the trick, but IDK
 *Pass all the movies through the loss order in decending order
+How to validate data
 """
 
 # A list of every genre in alphabetical order
@@ -36,6 +39,9 @@ genreList = ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy',
 # A list of every column in the dataset file. Adds the genrelist at the end
 columns = ['tconst', 'startYear', "runtimeMinutes", "averageRating"] + genreList
 
+validcolumns = columns
+if columns[3] in validcolumns:
+    validcolumns.remove(columns[3])
 
 def pack_features_vector(features, labels):
     # Pack the features into a single array.
@@ -49,11 +55,20 @@ label_name = columns[3]
 
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
+# train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
+#     ['../sheets/Processed/MoviesMLShort3.tsv'],
+#     #unclassified version
+#     batch_size,
+#     column_names=columns,
+#     label_name=label_name,
+#     field_delim="\t",
+#     shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
+#     num_epochs=1)
 train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['../sheets/Processed/MoviesML.tsv'],
+    ['../sheets/Processed/MoviesMLShort3.tsv'],
+    #unclassified version
     batch_size,
-    column_names=columns,
-    label_name=label_name,
+    column_names=validcolumns,
     field_delim="\t",
     shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
     num_epochs=1)
@@ -102,7 +117,6 @@ class Model:
         self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
         self.train = optimizer.minimize(self.loss)
         #After 1000000 epochs, the lowest loss was 0.424
-
 
 
 # # Predictions, may or may not be debug code
