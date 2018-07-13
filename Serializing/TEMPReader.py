@@ -1,10 +1,9 @@
-import json
-import numpy as np
-import timeit
 import ast
+import json
+
+import numpy as np
 import pandas as pd
 
-id = "tt8630480"
 # count = 28
 genreList = ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Game-Show', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']
 
@@ -42,6 +41,7 @@ def genres():
 def principals():
     # load titles spreadsheet
     titleDF = pd.DataFrame.from_csv("../sheets/Processed/Titles.tsv", sep="\t")
+    movies = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
     print('Finished loading')
 
     # Add empty 'billing' column to spreadsheets
@@ -54,12 +54,14 @@ def principals():
         # keys = ["tconst", "ordering", "nconst", "category", "job", "characters"]
         currentId = ''
         personList = []
+        count = 0
         for line in openfile:
+            count = count + 1
             if not first:
                 person = []
                 tSplit = line.split("\t")
                 for i, x in enumerate(tSplit):
-                    person.append(x)  # Creates a dictionary for each cast/crew member.
+                    person.append(x)
                 if person[0] == currentId:
                     personList.append(person)
                 elif currentId == '':
@@ -67,7 +69,7 @@ def principals():
                     personList.append(person)
                 else:
                     try:
-                        titleDF.at[currentId, 'billing'] = personList
+                        titleDF.at[currentId, 'billing'] = json.dumps(personList)
                         print(titleDF.at[person[0], 'billing'], " : ", currentId)
                         personList = [person]
                         currentId = person[0]
@@ -76,9 +78,10 @@ def principals():
                 print(person)
             else:
                 first = False
-            print("finished loading, now exporting sheet")
+        print("finished loading, now exporting sheet")
         openfile.close()
-    pd.DataFrame.to_csv(titleDF, '../sheets/Processed/TItlesidk.tsv', sep='\t')
+    # titleDF = titleDF.Index.isin(movies['index'])
+    pd.DataFrame.to_csv(titleDF, '../sheets/Processed/MoviesBilling2.tsv', sep='\t')
 
 def getBinaryArray(rawGen):
     list = str(rawGen).split(",")
@@ -182,9 +185,10 @@ def convertSlowly():
         writefile.close()
 
 def isolateMovies():
-    titles = pd.DataFrame.from_csv("../sheets/Processed/Movies.tsv",sep="\t", header=0)
+    titles = pd.DataFrame.from_csv("../sheets/Processed/MoviesBilling2.tsv", sep="\t", header=0)
     titles = titles[titles.endYear.str.contains("N") == True]
-    titles.to_csv("../sheets/Processed/Movies2.tsv", sep="\t")
+    titles = titles[titles.seasonNumber.isnull()]
+    titles.to_csv("../sheets/Processed/MoviesBilling2Trunc.tsv", sep="\t")
 
 def truncSheets():
     titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesFull.tsv", sep="\t")
@@ -211,15 +215,16 @@ def fixGenres():
         titleDF[genre] = titleDF[genre].str
 
 def numerateTConst():
-    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesBilling2Trunc.tsv", sep="\t")
     print('Finished loading')
     titleDF.reset_index(inplace=True)
     print(titleDF.head(3))
 
     # Add empty 'billing' column to spreadsheets
+    titleDF['realid'] = titleDF['tconst']
     titleDF.tconst = titleDF.tconst.str[2:]
     titleDF.set_index("tconst", inplace=True)
-    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
+    titleDF.to_csv("../sheets/Processed/MoviesBilling2Trunc.tsv", sep="\t")
     print(titleDF.head(3))
 
 def dropExtraColumns():
@@ -244,8 +249,7 @@ def fixruntimeMinutes():
     titleDF.replace(str(titleDF.at[4,"runtimeMinutes"]), "",inplace=True)
     titleDF["runtimeMinutes"] = pd.to_numeric(titleDF['runtimeMinutes'], errors='coerce')
 
-    itleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
-
+    titleDF.to_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
 
 def dropEmptyRatings():
     titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
@@ -257,8 +261,16 @@ def onlyrand5000():
     titleDF = titleDF.sample(n=5000,)
     titleDF.to_csv("../sheets/Processed/MoviesMLShort2.tsv", sep="\t")
 
+
+def trimMoviesBilling2():
+    titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesBilling2.tsv", sep="\t")
+    titleDF = titleDF
+    titleDF.drop("genres", axis=1, inplace=True)
+    titleDF.drop("originalTitle", axis=1, inplace=True)
+    titleDF.drop("runtimeMinutes", axis=1, inplace=True)
+
 # titleDF= pd.DataFrame.from_csv("../sheets/Processed/TitlesFull.tsv")
-onlyrand5000()# Add empty 'billing' column to spreadsheets
+numerateTConst()  # Add empty 'billing' column to spreadsheet
 # titleDF['billing'] = np.nan
 # titleDF['billing'] = titleDF['billing'].astype(object)
 
