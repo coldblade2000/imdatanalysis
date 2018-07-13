@@ -1,0 +1,162 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<BootUp>:
+    name: 'boot_up'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        Button:
+            text: ' '
+            size: 200, 100
+            size_hint: None, None
+            on_release: app.root.current = 'sign_up'
+
+#            Image:
+#                source: 'Movie Placeholder Image.png'
+
+<SignUp>:
+    name: 'sign_up'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+
+        Label:
+            text: 'Create an Account'
+
+#    f_username: username
+#    f_password: password
+#    GridLayout:
+#        rows: 2
+#        cols: 2
+#        padding: 10
+#        spacing: 10
+#
+#        Label:
+#            text: 'User Name:'
+#        TextInput:
+#            id: username
+#        Label:
+#            text: 'Password:'
+#        TextInput:
+#            id: password
+#            password: True
+#
+    FloatLayout:
+        size: 300, 300
+        Button:
+            text: 'Sign Up'
+            size: 200, 100
+            size_hint: None, None
+            pos: 300, 100
+            on_release: app.root.current = 'movie_input'
+
+        Button:
+            text: 'Already have an account? Sign in here.'
+            size: 500, 100
+            size_hint: None, None
+            pos: 150, 0
+            on_release: app.root.current = 'sign_in'
+
+<SignIn>:
+    name: 'sign_in'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+
+        Button:
+            text: 'Continue'
+            size: 200, 100
+            size_hint: None, None
+            on_release: app.root.current = 'movie_input'
+
+<MovieInput>:
+    name: 'movie_input'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        TextInput:
+            text: 'Enter your favorite genre'
+            multiline: 'false'
+            size: 200, 100
+            size_hint: None, None
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
+
+        Button:
+            text: 'Continue'
+            size: 200, 100
+            size_hint: None, None
+            on_release: app.root.current = 'movie_input2'
+
+#    CustomDropDown:
+#    AnchorLayout:
+#        anchor_x: 'center'
+#        anchor_y: 'center'
+#
+#        Button:
+#            text: 'Action'
+#            size_hint_y: None
+#            height: 44
+#        Button:
+#            size_hint_y: None
+#            text: 'Adult'
+#            height: 44
+#        Button:
+#            text: 'Adventure'
+#            size_hint_y: None
+#            height: 44
+#        Button:
+#            size_hint_y: None
+#            text: 'Animation'
+#            height: 44
+
+#    Button:
+#        text: 'View top 30 movies in your preferred genre'
+#        on_release: app.root.current = 'movie_input2'
+
+<MovieInput2>:
+    name: 'movie_input2'
+#    AnchorLayout:
+#        anchor_x: 'center'
+#        anchor_y: 'top'
+#
+#        Label:
+#            text: 'Choose movies from your selected genre that you have seen recently and that you have enjoyed.'
+
+    GridLayout:
+        cols: 3
+
+        ToggleButton:
+            text: 'Incredibles 2'
+
+#            Image:
+#                source: 'Movie Placeholder Image.png'
+
+        ToggleButton:
+            text: 'Raining Dogs and Cats'
+
+        ToggleButton:
+            text: 'Pure Comedy'
+
+        ToggleButton:
+            text: 'Danger Ranger'
+
+        ToggleButton:
+            text: 'Exploration'
+
+        ToggleButton:
+            text: 'Volcanic'
+
+#    Button:
+#        text: 'Continue'
+#        on_release: app.root.current = 'waiting'
+
+<Waiting>:
+    name: 'waiting'
+
+    #Button:
+    #    on_release: app.root.current = 'sign_in'
