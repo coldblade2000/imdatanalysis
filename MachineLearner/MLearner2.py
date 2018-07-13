@@ -50,7 +50,7 @@ label_name = columns[3]
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
 train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['../sheets/Processed/MoviesMLShort2.tsv'],
+    ['../sheets/Processed/MoviesML.tsv'],
     batch_size,
     column_names=columns,
     label_name=label_name,
@@ -62,12 +62,16 @@ train_dataset = train_dataset.map(pack_features_vector)  # Runs the pack_feature
 
 INPUT_SIZE = 28 + 3  # How many values are being passed as input
 
-train_dataset = train_dataset.repeat().batch(batch_size)
+train_dataset = train_dataset.repeat()
 
 # IDK what this does, and at this point I'm too afraid to find out
 # Maybe sets the features and labels variables
 # features, labels = next(iter(train_dataset))
 next_training = train_dataset.make_one_shot_iterator().get_next()
+
+
+#try to find how to use parallel models
+
 
 # Creates a neural network model. First hidden layer has 17 neurons, the second 10 and it has 1 output
 #
@@ -91,9 +95,10 @@ class Model:
                  optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0001)):
         self.inputs = tf.placeholder(tf.float32, [None, input_size])
         self.hidden = tf.layers.dense(self.inputs, hidden_size, activation = tf.nn.tanh)
-        self.prediction_raw = tf.layers.dense(self.hidden_layer, 1)
+        self.prediction_raw = tf.layers.dense(self.hidden, 1)
         self.prediction = rating_scale * tf.nn.sigmoid(self.prediction_raw)
-        self.actual_rating = tf.placeholder(tf.float32, [None])
+        self.prediction = tf.squeeze(self.prediction, axis=1)
+        self.actual_rating = tf.placeholder(tf.float32, [None,])
         self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
         self.train = optimizer.minimize(self.loss)
 
@@ -148,9 +153,10 @@ class Model:
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 10 + 1  # The amount of epochs the code will run for
+num_epochs = 1000000 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
+model = Model()
 saver = tf.train.Saver()
 folder_path = './trained_model/'
 
@@ -158,56 +164,52 @@ if not os.path.exists(folder_path):
     os.makedirs(folder_path)
 
 with tf.Session() as sess:
-    model = Model()
-    tb = 0
-    min = 10
-
+    training_best = 0
+    min_loss = 10
+    sess.run(tf.global_variables_initializer())
     for epoch in range(num_epochs): # Training the model, will train for 300 epochs
-        epoch_loss_avg = tf.metrics.Mean()  # No idea
         ## epoch_accuracy = tfe.metrics.Accuracy()
-
+        # Get next batch of examples and labels
+        features, labels = sess.run(next_training)
+        # print('Features:', features.shape,'\n',features)
+        # print('Features:', labels.shape,'\n',labels)
         # Training loop - using batches of 64
-        for x, y in train_dataset:
-            # Optimize the model
-            loss_value, grads = grad(model, x, y)
-            optimizer.apply_gradients(zip(grads, model.variables),
-                                      global_step)
-
-            # Track progress
-            epoch_loss_avg(loss_value)  # add current batch loss
-            # compare predicted label to actual label
-            ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
-
+        # for x, y in train_dataset:
+        #     # Optimize the model
+        #     loss_value, grads = grad(model, x, y)
+        #     optimizer.apply_gradients(zip(grads, model.variables),
+        #                               global_step)
+        #
+        #     # Track progress
+        #     epoch_loss_avg(loss_value)  # add current batch loss
+        #     # compare predicted label to actual label
+        #     ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
+        feed_dict = {model.inputs : features, model.actual_rating : labels}
+        sess.run(model.train, feed_dict)
+        loss = sess.run(model.loss, feed_dict)
         # end epoch
-        train_loss_results.append(epoch_loss_avg.result())
+        train_loss_results.append(loss)
         ## train_accuracy_results.append(epoch_accuracy.result())
 
+        if epoch % 1000 == 0:  # Print loss every 10 epochs
+            print("Epoch {:03d}: Loss: {:.3f}".format(epoch,loss))
+        if loss  < 1.100:
+            training_best += 1
+        min_loss = min(min_loss, loss)
 
-        if epoch % 10 == 0:  # Print loss every 10 epochs
-            print("Epoch {:03d}: Loss: {:.3f}".format(epoch,epoch_loss_avg.result()))
-        if epoch_loss_avg.result()  < 1.100:
-            tb += 1
-        if epoch_loss_avg.result() < min:
-            min = epoch_loss_avg.result()
-
-     # Update our running tally of scores.
         if epoch % save_frequency == 0 and epoch != 0:
-            # TO DO: SAVE MODEL            #Place this line  in the training code above so that our agent saves its progress periodically and at the end
             saver.save(sess, folder_path + 'pg-checkpoint', epoch)
-            print('Actions used: {}\nMean score:{}'.format(actions, np.mean(total_rewards[-save_frequency:])))
 
-        print('Training finished.')
-        # TO DO: SAVE MODEL
-        # Place this line  in the training code above so that our agent saves its progress periodically and at the end
-        saver.save(sess, folder_path + './trained_model/', epoch)
+    print('Training finished.')
+    saver.save(sess, folder_path + './trained_model/', epoch)
 
-    print("Epoch beneath 1.1: " + str(tb) + " Lowest Value: " + str(min))
+    print("Epoch beneath 1.1: " + str(training_best) + " Lowest Value: " + str(min_loss))
 
 movie_list = []
 
-for x in train_dataset:
-    y = model(x)
-    movie_list.append(x[0])
+# for x in train_dataset:
+#     y = model(x)
+#     movie_list.append(x[0])
 movie_list = sorted(movie_list, reverse = True)
 print(movie_list)
 
