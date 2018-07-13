@@ -15,7 +15,7 @@ import os
 """ TODO
 * Find out how to adapt the code to give us a predicted score instead of trying to fit into a category, ask alex
 #eagar model tf checkpoints saving and loading
-* DON Save and load the trained model, so we don't have to train it every time
+* DONE Save and load the trained model, so we don't have to train it every time
 * DONE Play around with the number of neurons and hidden layers
 * DONE Find out wtf is happening with the loss function, as it always gives a huge number at the first epoch then 1.066 every subsequent epoch
 * Manage to predict ratings based on different inputs
@@ -101,6 +101,7 @@ class Model:
         self.actual_rating = tf.placeholder(tf.float32, [None,])
         self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
         self.train = optimizer.minimize(self.loss)
+        #After 1000000 epochs, the lowest loss was 0.424
 
 
 
@@ -153,7 +154,7 @@ class Model:
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 1000000 + 1  # The amount of epochs the code will run for
+num_epochs = 70000 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
 model = Model()
@@ -191,7 +192,7 @@ with tf.Session() as sess:
         train_loss_results.append(loss)
         ## train_accuracy_results.append(epoch_accuracy.result())
 
-        if epoch % 1000 == 0:  # Print loss every 10 epochs
+        if epoch % 10000 == 0:  # Print loss every 10 epochs
             print("Epoch {:03d}: Loss: {:.3f}".format(epoch,loss))
         if loss  < 1.100:
             training_best += 1
