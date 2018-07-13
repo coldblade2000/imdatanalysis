@@ -1,5 +1,4 @@
-#: import FadeTransition kivy.uix.screenmanager.FadeTransition
-
+#kivy.require("1.10.0")
 <BootUp>:
     name: 'boot_up'
     AnchorLayout:
@@ -129,6 +128,7 @@
 
     GridLayout:
         cols: 3
+        size_hint: 1, 0.8
 
         ToggleButton:
             text: 'Incredibles 2'
@@ -151,12 +151,65 @@
         ToggleButton:
             text: 'Volcanic'
 
-#    Button:
-#        text: 'Continue'
-#        on_release: app.root.current = 'waiting'
+        Label:
+            text: ' '
+
+        Button:
+            text: 'Continue'
+            on_release: app.root.current = 'waiting'
 
 <Waiting>:
     name: 'waiting'
 
-    #Button:
-    #    on_release: app.root.current = 'sign_in'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Thank You!'
+        Label:
+            text: 'Your responses have been recorded.'
+        Button:
+            text: '...the AI is now processing your data...'
+            on_release: app.root.current = 'how_to'
+
+<HowTo>:
+    name: 'how_to'
+    PageLayout:
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'you tell us what movies you have seen'
+            Label:
+                text: ' '
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'answer a few quick questions for us'
+            Label:
+                text: ' '
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'our computer wizards will do some behind the scenes work'
+            Label:
+                text: ' '
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'then, based on your preferences, we can recommend movies to you!'
+            Label:
+                text: ' '
+
+<HowTo2>:
+    name: 'how_to2'
+
+
+<HowTo3>:
+    name: 'how_to3'
+
+
+<HowTo4>:
+    name: 'how_to4'
+

@@ -1,18 +1,15 @@
 #kivy.require("1.10.0")
 from kivy.app import App
-
-from kivy.core.window import Window
-#Window.clearcolor = (1, 1, 1, 1)
-
 from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
-from kivy.uix.dropdown import DropDown
 from kivy.uix.button import Button
-from kivy.uix.textinput import TextInput
+from kivy.uix.dropdown import DropDown
+from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+
+# Window.clearcolor = (1, 1, 1, 1)
 
 sm = ScreenManager()
 
-for i in range(6):
+for i in range(10):
     screen = Screen(name='Title %d' % i)
     sm.add_widget(screen)
 
@@ -36,13 +33,25 @@ class MovieInput2(Screen):
 class Waiting(Screen):
     pass
 
-class CustomDropDown(DropDown):
+class HowTo(Screen):
     pass
 
-dropdown = CustomDropDown()
-mainbutton = Button(text='Choose a genre', size_hint=(None, None))
-mainbutton.bind(on_release=dropdown.open)
-dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
+class HowTo2(Screen):
+    pass
+
+class HowTo3(Screen):
+    pass
+
+class HowTo4(Screen):
+    pass
+
+# class CustomDropDown(DropDown):
+#     pass
+
+# dropdown = CustomDropDown()
+# mainbutton = Button(text='Choose a genre', size_hint=(None, None))
+# mainbutton.bind(on_release=dropdown.open)
+# dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
 
 Builder.load_file("screens.kv")
 
@@ -53,6 +62,11 @@ sm.add_widget(SignIn(name='sign_in'))
 sm.add_widget(MovieInput(name='movie_input'))
 sm.add_widget(MovieInput2(name='movie_input2'))
 sm.add_widget(Waiting(name='waiting'))
+
+sm.add_widget(HowTo(name='how_to'))
+sm.add_widget(HowTo2(name='how_to2'))
+sm.add_widget(HowTo3(name='how_to3'))
+sm.add_widget(HowTo4(name='how_to4'))
 
 class MovieApp(App):
     def build(self):
