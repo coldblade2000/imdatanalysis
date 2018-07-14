@@ -206,8 +206,47 @@
 
 <Home>:
     name: 'home'
-    Label:
-        text: 'Home'
+    BoxLayout:
+        orientation: 'vertical'
+
+        GridLayout:
+            cols: 3
+
+            Label:
+                text: ' '
+
+            Label:
+                text: 'Movies you have seen recently that you have loved'
+
+            Label:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
 
     BoxLayout:
         orientation: 'horizontal'
@@ -227,23 +266,50 @@
 
 <Discover>:
     name: 'discover'
-    Label:
-        text: 'Discover'
-
     BoxLayout:
-        orientation: 'horizontal'
-        size_hint: 1, 0.1
+        orientation: 'vertical'
 
-        Button:
-            text: 'Discover'
+        GridLayout:
+            cols: 4
 
-        Button:
-            text: 'Home'
-            on_release: app.root.current = 'home'
+            Button:
+                text: ' '
 
-        Button:
-            text: 'Settings'
-            on_release: app.root.current = 'settings'
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+            Button:
+                text: ' '
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.1
+
+            Button:
+                text: 'Discover'
+
+            Button:
+                text: 'Home'
+                on_release: app.root.current = 'home'
+
+            Button:
+                text: 'Settings'
+                on_release: app.root.current = 'settings'
 
 <Settings>:
     name: 'settings'
