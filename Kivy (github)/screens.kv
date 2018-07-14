@@ -210,7 +210,7 @@
         orientation: 'vertical'
 
         GridLayout:
-            cols: 3
+            cols: 4
 
             Label:
                 text: ' '
@@ -221,7 +221,7 @@
             Label:
                 text: ' '
 
-            Button:
+            Label:
                 text: ' '
 
             Button:
@@ -313,20 +313,23 @@
 
 <Settings>:
     name: 'settings'
-    Label:
-        text: 'Settings'
-
     BoxLayout:
-        orientation: 'horizontal'
-        size_hint: 1, 0.1
-
-        Button:
-            text: 'Discover'
-            on_release: app.root.current = 'discover'
-
-        Button:
-            text: 'Home'
-            on_release: app.root.current = 'home'
+        orientation: 'vertical'
 
         Button:
             text: 'Settings'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.1
+
+            Button:
+                text: 'Discover'
+                on_release: app.root.current = 'discover'
+
+            Button:
+                text: 'Home'
+                on_release: app.root.current = 'home'
+
+            Button:
+                text: 'Settings'
