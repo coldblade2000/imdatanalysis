@@ -259,7 +259,8 @@ def dropEmptyRatings():
 def onlyrand5000():
     titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
     titleDF = titleDF.sample(n=5000,)
-    titleDF.to_csv("../sheets/Processed/MoviesMLShort2.tsv", sep="\t")
+    titleDF.drop("averageRating", axis=1, inplace=True)
+    titleDF.to_csv("../sheets/Processed/MoviesMLShort3.tsv", sep="\t")
 
 
 def trimMoviesBilling2():
@@ -270,7 +271,7 @@ def trimMoviesBilling2():
     titleDF.drop("runtimeMinutes", axis=1, inplace=True)
 
 # titleDF= pd.DataFrame.from_csv("../sheets/Processed/TitlesFull.tsv")
-numerateTConst()  # Add empty 'billing' column to spreadsheet
+onlyrand5000()  # Add empty 'billing' column to spreadsheet
 # titleDF['billing'] = np.nan
 # titleDF['billing'] = titleDF['billing'].astype(object)
 
