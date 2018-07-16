@@ -26,10 +26,7 @@ def movieslookup(billing):
 
 
 def returnactorcoincidences(dictionary):
-    """
-
-    :type dictionary: dict
-    """
+    """:type dictionary: dict"""
     coincidences = []
     for movie, actorlist in dictionary.items():
         for actor in actorlist:
@@ -37,6 +34,15 @@ def returnactorcoincidences(dictionary):
 
     return coincidences
 
+
+def getRating(id):
+    try:
+        mRatings = ratings.set_index("id")
+        return mRatings.loc[id]["rating"]
+    except KeyError:
+        print("Defaulting to avg rating for id: ", id)
+        avgRatings = pd.DataFrame.from_csv("../sheets/ratings.tsv", sep="\t")
+        return avgRatings.loc[id]["averageRating"]
 
 billingdfOG = pd.DataFrame.from_csv("../sheets/Processed/MoviesBilling2Trunc.tsv", sep="\t")
 billingdf = billingdfOG.sample(n=100)
