@@ -25,6 +25,7 @@
 
         Label:
             text: 'Create an Account'
+            color: 0, 0, 0, 1
 
 #    f_username: username
 #    f_password: password
@@ -134,13 +135,6 @@
 
 <MovieInput2>:
     name: 'movie_input2'
-#    AnchorLayout:
-#        anchor_x: 'center'
-#        anchor_y: 'top'
-#
-#        Label:
-#            text: 'Choose movies from your selected genre that you have seen recently and that you have enjoyed.'
-
     GridLayout:
         cols: 3
         size_hint: 1, 0.8
@@ -148,47 +142,30 @@
         ToggleButton:
             text: 'Incredibles 2'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
-
-#            Image:
-#                source: 'Movie Placeholder Image.png'
 
         ToggleButton:
             text: 'Raining Dogs and Cats'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Pure Comedy'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Danger Ranger'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Exploration'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Volcanic'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
 
         Label:
             text: ' '
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
 
         Button:
             text: 'Continue'
@@ -204,8 +181,10 @@
         orientation: 'vertical'
         Label:
             text: 'Thank You!'
+            color: 0, 0, 0, 1
         Label:
             text: 'Your responses have been recorded.'
+            color: 0, 0, 0, 1
         Button:
             text: '...the AI is now processing your data...'
             bold: 'True'
@@ -219,7 +198,6 @@
         BoxLayout:
             orientation: 'horizontal'
             Button:
-#                background_normal: ''
                 text: 'you tell us what movies you have seen'
                 bold: 'True'
                 background_normal: ''
@@ -265,18 +243,6 @@
 
         GridLayout:
             cols: 4
-
-            Button:
-                text: ' '
-
-            Button:
-                text: ' '
-
-            Button:
-                text: ' '
-
-            Button:
-                text: ' '
 
             Button:
                 text: ' '
