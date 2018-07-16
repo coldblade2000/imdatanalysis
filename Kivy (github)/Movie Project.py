@@ -5,7 +5,8 @@ from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 
-# Window.clearcolor = (1, 1, 1, 1)
+from kivy.core.window import Window
+Window.clearcolor = (1, 1, 1, 1)
 
 sm = ScreenManager()
 

@@ -6,9 +6,12 @@
         anchor_y: 'center'
 
         Button:
-            text: ' '
+            text: 'Click Here to Begin'
+            bold: 'True'
             size: 200, 100
             size_hint: None, None
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'sign_up'
 
 #            Image:
@@ -22,6 +25,7 @@
 
         Label:
             text: 'Create an Account'
+            color: 0, 0, 0, 1
 
 #    f_username: username
 #    f_password: password
@@ -45,6 +49,9 @@
         size: 300, 300
         Button:
             text: 'Sign Up'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 200, 100
             size_hint: None, None
             pos: 300, 100
@@ -52,6 +59,9 @@
 
         Button:
             text: 'Already have an account? Sign in here.'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 500, 100
             size_hint: None, None
             pos: 150, 0
@@ -65,6 +75,9 @@
 
         Button:
             text: 'Continue'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 200, 100
             size_hint: None, None
             on_release: app.root.current = 'movie_input'
@@ -87,6 +100,9 @@
 
         Button:
             text: 'Continue'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 200, 100
             size_hint: None, None
             on_release: app.root.current = 'movie_input2'
@@ -119,43 +135,43 @@
 
 <MovieInput2>:
     name: 'movie_input2'
-#    AnchorLayout:
-#        anchor_x: 'center'
-#        anchor_y: 'top'
-#
-#        Label:
-#            text: 'Choose movies from your selected genre that you have seen recently and that you have enjoyed.'
-
     GridLayout:
         cols: 3
         size_hint: 1, 0.8
 
         ToggleButton:
             text: 'Incredibles 2'
-
-#            Image:
-#                source: 'Movie Placeholder Image.png'
+            bold: 'True'
 
         ToggleButton:
             text: 'Raining Dogs and Cats'
+            bold: 'True'
 
         ToggleButton:
             text: 'Pure Comedy'
+            bold: 'True'
 
         ToggleButton:
             text: 'Danger Ranger'
+            bold: 'True'
 
         ToggleButton:
             text: 'Exploration'
+            bold: 'True'
 
         ToggleButton:
             text: 'Volcanic'
+            bold: 'True'
 
         Label:
             text: ' '
+            bold: 'True'
 
         Button:
             text: 'Continue'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'waiting'
 
 <Waiting>:
@@ -165,10 +181,15 @@
         orientation: 'vertical'
         Label:
             text: 'Thank You!'
+            color: 0, 0, 0, 1
         Label:
             text: 'Your responses have been recorded.'
+            color: 0, 0, 0, 1
         Button:
             text: '...the AI is now processing your data...'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'how_to'
 
 <HowTo>:
@@ -177,8 +198,10 @@
         BoxLayout:
             orientation: 'horizontal'
             Button:
-#                background_normal: ''
                 text: 'you tell us what movies you have seen'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'home'
             Label:
                 text: ' '
@@ -187,6 +210,9 @@
             orientation: 'horizontal'
             Button:
                 text: 'answer a few quick questions for us'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
             Label:
                 text: ' '
 
@@ -194,6 +220,9 @@
             orientation: 'horizontal'
             Button:
                 text: 'our computer wizards will do some behind the scenes work'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
             Label:
                 text: ' '
 
@@ -201,6 +230,9 @@
             orientation: 'horizontal'
             Button:
                 text: 'then, based on your preferences, we can recommend movies to you!'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
             Label:
                 text: ' '
 
@@ -210,19 +242,7 @@
         orientation: 'vertical'
 
         GridLayout:
-            cols: 3
-
-            Label:
-                text: ' '
-
-            Label:
-                text: 'Movies you have seen recently that you have loved'
-
-            Label:
-                text: ' '
-
-            Button:
-                text: ' '
+            cols: 4
 
             Button:
                 text: ' '
@@ -254,13 +274,22 @@
 
         Button:
             text: 'Discover'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'discover'
 
         Button:
             text: 'Home'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         Button:
             text: 'Settings'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'settings'
 
 
@@ -302,31 +331,52 @@
 
             Button:
                 text: 'Discover'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
 
             Button:
                 text: 'Home'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'home'
 
             Button:
                 text: 'Settings'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'settings'
 
 <Settings>:
     name: 'settings'
-    Label:
-        text: 'Settings'
-
     BoxLayout:
-        orientation: 'horizontal'
-        size_hint: 1, 0.1
-
-        Button:
-            text: 'Discover'
-            on_release: app.root.current = 'discover'
-
-        Button:
-            text: 'Home'
-            on_release: app.root.current = 'home'
+        orientation: 'vertical'
 
         Button:
             text: 'Settings'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.1
+
+            Button:
+                text: 'Discover'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
+                on_release: app.root.current = 'discover'
+
+            Button:
+                text: 'Home'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
+                on_release: app.root.current = 'home'
+
+            Button:
+                text: 'Settings'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
