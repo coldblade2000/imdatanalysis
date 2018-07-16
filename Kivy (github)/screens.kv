@@ -6,9 +6,12 @@
         anchor_y: 'center'
 
         Button:
-            text: ' '
+            text: 'Click Here to Begin'
+            bold: 'True'
             size: 200, 100
             size_hint: None, None
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'sign_up'
 
 #            Image:
@@ -45,6 +48,9 @@
         size: 300, 300
         Button:
             text: 'Sign Up'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 200, 100
             size_hint: None, None
             pos: 300, 100
@@ -52,6 +58,9 @@
 
         Button:
             text: 'Already have an account? Sign in here.'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 500, 100
             size_hint: None, None
             pos: 150, 0
@@ -65,6 +74,9 @@
 
         Button:
             text: 'Continue'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 200, 100
             size_hint: None, None
             on_release: app.root.current = 'movie_input'
@@ -87,6 +99,9 @@
 
         Button:
             text: 'Continue'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             size: 200, 100
             size_hint: None, None
             on_release: app.root.current = 'movie_input2'
@@ -132,30 +147,54 @@
 
         ToggleButton:
             text: 'Incredibles 2'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
 #            Image:
 #                source: 'Movie Placeholder Image.png'
 
         ToggleButton:
             text: 'Raining Dogs and Cats'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Pure Comedy'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Danger Ranger'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Exploration'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         ToggleButton:
             text: 'Volcanic'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         Label:
             text: ' '
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         Button:
             text: 'Continue'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'waiting'
 
 <Waiting>:
@@ -169,6 +208,9 @@
             text: 'Your responses have been recorded.'
         Button:
             text: '...the AI is now processing your data...'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'how_to'
 
 <HowTo>:
@@ -179,6 +221,9 @@
             Button:
 #                background_normal: ''
                 text: 'you tell us what movies you have seen'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'home'
             Label:
                 text: ' '
@@ -187,6 +232,9 @@
             orientation: 'horizontal'
             Button:
                 text: 'answer a few quick questions for us'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
             Label:
                 text: ' '
 
@@ -194,6 +242,9 @@
             orientation: 'horizontal'
             Button:
                 text: 'our computer wizards will do some behind the scenes work'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
             Label:
                 text: ' '
 
@@ -201,6 +252,9 @@
             orientation: 'horizontal'
             Button:
                 text: 'then, based on your preferences, we can recommend movies to you!'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
             Label:
                 text: ' '
 
@@ -212,16 +266,16 @@
         GridLayout:
             cols: 4
 
-            Label:
+            Button:
                 text: ' '
 
-            Label:
-                text: 'Movies you have seen recently that you have loved'
-
-            Label:
+            Button:
                 text: ' '
 
-            Label:
+            Button:
+                text: ' '
+
+            Button:
                 text: ' '
 
             Button:
@@ -254,13 +308,22 @@
 
         Button:
             text: 'Discover'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'discover'
 
         Button:
             text: 'Home'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
 
         Button:
             text: 'Settings'
+            bold: 'True'
+            background_normal: ''
+            background_color: 255, 0, 0, 1
             on_release: app.root.current = 'settings'
 
 
@@ -302,13 +365,22 @@
 
             Button:
                 text: 'Discover'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
 
             Button:
                 text: 'Home'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'home'
 
             Button:
                 text: 'Settings'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'settings'
 
 <Settings>:
@@ -325,11 +397,20 @@
 
             Button:
                 text: 'Discover'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'discover'
 
             Button:
                 text: 'Home'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
                 on_release: app.root.current = 'home'
 
             Button:
                 text: 'Settings'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
