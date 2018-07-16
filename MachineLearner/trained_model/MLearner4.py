@@ -158,7 +158,7 @@ class Model:
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 10000 + 1  # The amount of epochs the code will run for
+num_epochs = 1000 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
 model = Model()
@@ -212,20 +212,34 @@ with tf.Session() as sess:
 
 
 
-predict_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'],
-    batch_size,
-    column_names=columns,
-    label_name=label_name,
-    field_delim="\t",
-    shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
-    num_epochs=1)
+#predict_dataset = tf.contrib.data.make_csv_dataset()  # Load dataset from MoviesML.tsv
+#     ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv'],
+#     batch_size,
+#     column_names=columns,
+#     label_name=label_name,
+#     field_delim="\t",
+#     shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
+#     num_epochs=1)
+#
+# predict_dataset = predict_dataset.map(pack_features_vector)
+#
+# next_predicted = predict_dataset.make_one_shot_iterator().get_next()
+# #print(next_predicted)
+# #with tf.Session() as sess:
+#     #features = sess.run(next_predicted)
+# print(Predict(model, next_predicted[0]))
+#
+# # for line in predict_dataset:
+# #     score = Predict(model, line)
+# #     print(score)
+#prediction_file = ["/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv"]
 
-predict_dataset = predict_dataset.map(pack_features_vector)
+with open('/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv') as f:
+    for line in f:
+        input_prediction = np.fromstring(line, dtype = float, sep = '\t')
+        print(Predict(model, np.reshape(input_prediction, (1, 31))))
 
-for line in predict_dataset:
-    score = Predict(model, line)
-    print(score)
+
 
 movie_list = []
 
