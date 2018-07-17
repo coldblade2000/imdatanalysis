@@ -8,14 +8,15 @@
         Button:
             text: 'Click Here to Begin'
             bold: 'True'
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
-            background_normal: ''
-            background_color: 0.839, 0.188, 0.192, 1
+#            background_normal: ''
+#            background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'sign_up'
-
-#            Image:
-#                source: 'Movie Placeholder Image.png'
 
 <SignUp>:
     name: 'sign_up'
@@ -24,7 +25,7 @@
         Label:
             text: 'Create an Account'
             color: 1, 1, 1, 1
-            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
 
         Button:
             text: 'Sign Up'
@@ -43,7 +44,7 @@
             background_color: 0.839, 0.188, 0.192, 1
             size: 500, 100
             size_hint: None, None
-            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.11}
             on_release: app.root.current = 'sign_in'
 
 <SignIn>:
@@ -63,198 +64,215 @@
 
 <MovieInput>:
     name: 'movie_input'
-    BoxLayout:
-        orientation: 'vertical'
+#    BoxLayout:
+#        orientation: 'vertical'
 
-        GridLayout:
-            cols: 4
-            size_hint: 1, 1
+    GridLayout:
+        cols: 4
+        size_hint: 1, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Action'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Action'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Adventure'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Adventure'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Animation'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Animation'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Biography'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Biography'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Comedy'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Comedy'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Crime'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Crime'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Documentary'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Documentary'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Drama'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Drama'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Family'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Family'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Fantasy'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Fantasy'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Film Noir'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Film Noir'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'History'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'History'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Horror'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Horror'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Music'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Music'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Musical'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Musical'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Mystery'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Mystery'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Romance'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Romance'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Sci-Fi'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Sci-Fi'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Short'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Short'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Sport'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Sport'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Superhero'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Superhero'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Thriller'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Thriller'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'War'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'War'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Western'
-                color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+        ToggleButton:
+            group: 'genre'
+            text: 'Western'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-#            Label:
-#                text: ' '
-#
-#            Label:
-#                text: ' '
+        Label:
+            text: ''
 
-        FloatLayout:
-            Button:
-                text: 'Continue'
-                bold: 'True'
-                background_normal: ''
-                background_color: 0.839, 0.188, 0.192, 1
-                size: 200, 100
-                size_hint: None, None
-                pos_hint: {'center_x': 0.5, 'center_y': 0.2}
-    #            pos: (100, 100)
-                on_release: app.root.current = 'movie_input2'
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+    FloatLayout:
+        Button:
+            text: 'Continue'
+            bold: 'True'
+            background_normal: ''
+            background_color: 0.839, 0.188, 0.192, 1
+            size: 200, 100
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.13}
+            on_release: app.root.current = 'movie_input2'
 
 <MovieInput2>:
     name: 'movie_input2'
@@ -299,16 +317,23 @@
             background_color: 0.819, 0.819, 0.819, 1
 
         Label:
-            text: ' '
-            color: 0, 0, 0, 1
-            background_normal: ''
-            background_color: 0.819, 0.819, 0.819, 1
+            text: ''
 
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+    FloatLayout:
         Button:
             text: 'Continue'
             bold: 'True'
             background_normal: ''
             background_color: 0.839, 0.188, 0.192, 1
+            size: 200, 100
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.15}
             on_release: app.root.current = 'waiting'
 
 <Waiting>:
@@ -319,14 +344,17 @@
 
         Label:
             text: 'Thank You!'
+            font_size: 80
             color: 1, 1, 1, 1
 
         Label:
             text: 'Your responses have been recorded.'
+            font_size: 18
             color: 1, 1, 1, 1
 
         Button:
             text: '...the AI is now processing your data...'
+            font_size: 18
             bold: 'True'
             background_normal: ''
             background_color: 0.839, 0.188, 0.192, 1
@@ -571,4 +599,3 @@
                 bold: 'True'
                 background_normal: ''
                 background_color: 0.839, 0.188, 0.192, 1
-
