@@ -162,13 +162,15 @@ folder_path = './trained_model/'
 
 
 # keep results for plotting
+train_loss_results = []
+
+
+
 def Train2ElectricBoogaloo():
     train_loss_results = []
     ## train_accuracy_results = []
-
-    num_epochs = 1000 + 1  # The amount of epochs the code will run for
+    num_epochs = 25000 + 1  # The amount of epochs the code will run for
     save_frequency = 50
-
     model = Model()
     saver = tf.train.Saver()
     folder_path = './trained_model/'
@@ -301,4 +303,9 @@ predict(path)
 
 
 # Plot out the loss
+# fig, axes = plt.subplots(2, sharex=True, figsize=(12, 8))
+# fig.suptitle('Training Metrics')
 #
+# axes[1].set_ylabel("Loss", fontsize=14)
+# axes[1].set_xlabel("Epoch", fontsize=14)
+# axes[1].plot(train_loss_results)
