@@ -11,7 +11,7 @@
             size: 200, 100
             size_hint: None, None
             background_normal: ''
-            background_color: 255, 0, 0, 1
+            background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'sign_up'
 
 #            Image:
@@ -19,52 +19,31 @@
 
 <SignUp>:
     name: 'sign_up'
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'top'
+    FloatLayout:
 
         Label:
             text: 'Create an Account'
             color: 0, 0, 0, 1
+            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
 
-#    f_username: username
-#    f_password: password
-#    GridLayout:
-#        rows: 2
-#        cols: 2
-#        padding: 10
-#        spacing: 10
-#
-#        Label:
-#            text: 'User Name:'
-#        TextInput:
-#            id: username
-#        Label:
-#            text: 'Password:'
-#        TextInput:
-#            id: password
-#            password: True
-#
-    FloatLayout:
-        size: 300, 300
         Button:
             text: 'Sign Up'
             bold: 'True'
             background_normal: ''
-            background_color: 255, 0, 0, 1
+            background_color: 0.839, 0.188, 0.192, 1
             size: 200, 100
             size_hint: None, None
-            pos: 300, 100
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
             on_release: app.root.current = 'movie_input'
 
         Button:
             text: 'Already have an account? Sign in here.'
             bold: 'True'
             background_normal: ''
-            background_color: 255, 0, 0, 1
+            background_color: 0.839, 0.188, 0.192, 1
             size: 500, 100
             size_hint: None, None
-            pos: 150, 0
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
             on_release: app.root.current = 'sign_in'
 
 <SignIn>:
@@ -84,54 +63,152 @@
 
 <MovieInput>:
     name: 'movie_input'
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    BoxLayout:
+        orientation: 'vertical'
 
-        TextInput:
-            text: 'Enter your favorite genre'
-            multiline: 'false'
-            size: 200, 100
-            size_hint: None, None
+        GridLayout:
+            cols: 4
+            size_hint: 1, 1
 
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'bottom'
+            ToggleButton:
+                group: 'genre'
+                text: 'Action'
+                bold: 'True'
 
-        Button:
-            text: 'Continue'
-            bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
-            size: 200, 100
-            size_hint: None, None
-            on_release: app.root.current = 'movie_input2'
+            ToggleButton:
+                group: 'genre'
+                text: 'Adventure'
+                bold: 'True'
 
-#    CustomDropDown:
-#    AnchorLayout:
-#        anchor_x: 'center'
-#        anchor_y: 'center'
+            ToggleButton:
+                group: 'genre'
+                text: 'Animation'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Biography'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Comedy'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Crime'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Documentary'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Drama'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Family'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Fantasy'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Film Noir'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'History'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Horror'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Music'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Musical'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Mystery'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Romance'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Sci-Fi'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Short'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Sport'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Superhero'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Thriller'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'War'
+                bold: 'True'
+
+            ToggleButton:
+                group: 'genre'
+                text: 'Western'
+                bold: 'True'
+
+#            Label:
+#                text: ' '
 #
-#        Button:
-#            text: 'Action'
-#            size_hint_y: None
-#            height: 44
-#        Button:
-#            size_hint_y: None
-#            text: 'Adult'
-#            height: 44
-#        Button:
-#            text: 'Adventure'
-#            size_hint_y: None
-#            height: 44
-#        Button:
-#            size_hint_y: None
-#            text: 'Animation'
-#            height: 44
+#            Label:
+#                text: ' '
 
-#    Button:
-#        text: 'View top 30 movies in your preferred genre'
-#        on_release: app.root.current = 'movie_input2'
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'bottom'
+
+            Button:
+                text: 'Continue'
+                bold: 'True'
+                background_normal: ''
+                background_color: 255, 0, 0, 1
+                size: 200, 100
+                size_hint: None, None
+    #            pos: (100, 100)
+                on_release: app.root.current = 'movie_input2'
 
 <MovieInput2>:
     name: 'movie_input2'
