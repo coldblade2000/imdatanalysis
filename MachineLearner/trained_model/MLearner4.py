@@ -1,10 +1,12 @@
-import pandas as pd
 import tensorflow as tf
 import numpy as np
 # import tensorflow.contrib.eager as tfe
-import matplotlib.pyplot as plt
+import os
+# import tensorflow.contrib.eager as tfe
 import os
 
+import numpy as np
+import tensorflow as tf
 
 # tfe.enable_eager_execution()
 
@@ -154,62 +156,67 @@ class Model:
 #                                           loss(model, features, labels).numpy()))
 
 ## Note: Rerunning this cell uses the same model variables
-
-# keep results for plotting
-train_loss_results = []
-## train_accuracy_results = []
-
-num_epochs = 10000 + 1  # The amount of epochs the code will run for
-save_frequency = 50
-
 model = Model()
 saver = tf.train.Saver()
 folder_path = './trained_model/'
 
-if not os.path.exists(folder_path):
-    os.makedirs(folder_path)
 
-with tf.Session() as sess:
-    training_best = 0
-    min_loss = 10
-    sess.run(tf.global_variables_initializer())
-    for epoch in range(num_epochs): # Training the model, will train for 300 epochs
-        ## epoch_accuracy = tfe.metrics.Accuracy()
-        # Get next batch of examples and labels
-        features, labels = sess.run(next_training)
-        # print('Features:', features.shape,'\n',features)
-        # print('Features:', labels.shape,'\n',labels)
-        # Training loop - using batches of 64
-        # for x, y in train_dataset:
-        #     # Optimize the model
-        #     loss_value, grads = grad(model, x, y)
-        #     optimizer.apply_gradients(zip(grads, model.variables),
-        #                               global_step)
-        #
-        #     # Track progress
-        #     epoch_loss_avg(loss_value)  # add current batch loss
-        #     # compare predicted label to actual label
-        #     ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
-        feed_dict = {model.inputs : features, model.actual_rating : labels}
-        sess.run(model.train, feed_dict)
-        loss = sess.run(model.loss, feed_dict)
-        # end epoch
-        train_loss_results.append(loss)
-        ## train_accuracy_results.append(epoch_accuracy.result())
+# keep results for plotting
+def Train2ElectricBoogaloo():
+    train_loss_results = []
+    ## train_accuracy_results = []
 
-        if epoch % 1000 == 0:  # Print loss every 10 epochs
-            print("Epoch {:03d}: Loss: {:.3f}".format(epoch,loss))
-        if loss  < 1.100:
-            training_best += 1
-        min_loss = min(min_loss, loss)
+    num_epochs = 1000 + 1  # The amount of epochs the code will run for
+    save_frequency = 50
 
-        if epoch % save_frequency == 0 and epoch != 0:
-            saver.save(sess, folder_path + 'pg-checkpoint', epoch)
+    model = Model()
+    saver = tf.train.Saver()
+    folder_path = './trained_model/'
 
-    print('Training finished.')
-    saver.save(sess, folder_path + './trained_model/', epoch)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
 
-    print("Epoch beneath 1.1: " + str(training_best) + " Lowest Value: " + str(min_loss))
+    with tf.Session() as sess:
+        training_best = 0
+        min_loss = 10
+        sess.run(tf.global_variables_initializer())
+        for epoch in range(num_epochs):  # Training the model, will train for 300 epochs
+            ## epoch_accuracy = tfe.metrics.Accuracy()
+            # Get next batch of examples and labels
+            features, labels = sess.run(next_training)
+            # print('Features:', features.shape,'\n',features)
+            # print('Features:', labels.shape,'\n',labels)
+            # Training loop - using batches of 64
+            # for x, y in train_dataset:
+            #     # Optimize the model
+            #     loss_value, grads = grad(model, x, y)
+            #     optimizer.apply_gradients(zip(grads, model.variables),
+            #                               global_step)
+            #
+            #     # Track progress
+            #     epoch_loss_avg(loss_value)  # add current batch loss
+            #     # compare predicted label to actual label
+            #     ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
+            feed_dict = {model.inputs: features, model.actual_rating: labels}
+            sess.run(model.train, feed_dict)
+            loss = sess.run(model.loss, feed_dict)
+            # end epoch
+            train_loss_results.append(loss)
+            ## train_accuracy_results.append(epoch_accuracy.result())
+
+            if epoch % 1000 == 0:  # Print loss every 10 epochs
+                print("Epoch {:03d}: Loss: {:.3f}".format(epoch, loss))
+            if loss < 1.100:
+                training_best += 1
+            min_loss = min(min_loss, loss)
+
+            if epoch % save_frequency == 0 and epoch != 0:
+                saver.save(sess, folder_path + 'pg-checkpoint', epoch)
+
+        print('Training finished.')
+        saver.save(sess, folder_path + './trained_model/', epoch)
+
+        print("Epoch beneath 1.1: " + str(training_best) + " Lowest Value: " + str(min_loss))
 
 
 
@@ -235,18 +242,56 @@ with tf.Session() as sess:
 # #     print(score)
 #prediction_file = ["/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv"]
 
-movie_list = []
-
-with open('/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv') as f:
-    for line in f:
-        input_prediction = np.fromstring(line, dtype = float, sep = '\t')
-        #print(Predict(model, np.reshape(input_prediction, (1, 31))))
-        movie_list.append([input_prediction[0], Predict(model, np.reshape(input_prediction, (1, 31)))])
-print(movie_list)
+path = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv'
 
 
+def predict(filepath):
+    movie_list = []
+    with tf.Session() as sess:
+        checkpoint = tf.train.get_checkpoint_state(folder_path)
+        saver.restore(sess, checkpoint.model_checkpoint_path)
+
+        with open(filepath, "r") as f:
+            first = True
+            for line in f:
+                if not first:
+                    input_prediction = np.fromstring(line, dtype=float, sep='\t')
+                    # print(Predict(model, np.reshape(input_prediction, (1, 31))))
+                    titleid = "tt" + str(input_prediction[0])
+                    reshaped_data = np.reshape(input_prediction, (1, 31))
+                    prediction = Predict(model, reshaped_data)
+                    prediction = [titleid, prediction]
+                    print('Prediction:', prediction)
+                    movie_list.append(prediction)
+                else:
+                    first = False
+    return movie_list
 
 
+predict(path)
+# with tf.Session() as sess:
+#     # check our folder for saved checlpoints
+#     checkpoint = tf.train.get_checkpoint_state(folder_path)
+#     # restore the checkpoint for our agent
+#     saver.restore(sess, checkpoint.model_checkpoint_path)
+#     # Run our agent through a series of testing episodes
+#     for episode in range(testing_episodes):
+#         state = env.reset()
+#         episode_rewards = 0
+#         for step in range(max_steps_per_episode):
+#             env.render()
+#             # Get Action
+#             action_argmax = sess.run(my_agent.choice, feed_dict={my_agent.input: [state]})
+#             action_choice = action_argmax[0]
+#
+#             state_next, reward, done, _ = env.step(action_choice)
+#             state = state_next
+#
+#             episode_rewards += reward
+#
+#             if done or step + 1 >= max_steps_per_episode:
+#                 print("Rewards for episode " + str(episode) + ": " + str(episode_rewards))
+#                 break
 # for x in train_dataset:
 #     y = model(x)
 #     movie_list.append(x[0])
@@ -256,9 +301,4 @@ print(movie_list)
 
 
 # Plot out the loss
-fig, axes = plt.subplots(2, sharex=True, figsize=(12, 8))
-fig.suptitle('Training Metrics')
-
-axes[1].set_ylabel("Loss", fontsize=14)
-axes[1].set_xlabel("Epoch", fontsize=14)
-axes[1].plot(train_loss_results)
+#
