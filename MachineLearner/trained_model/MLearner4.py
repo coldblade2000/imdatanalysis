@@ -91,6 +91,7 @@ next_training = train_dataset.make_one_shot_iterator().get_next()
 
 def Predict(model, input_features):
     with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
         predictions = sess.run(model.prediction, {model.inputs: input_features})
         return predictions
 
@@ -158,7 +159,7 @@ class Model:
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 1000 + 1  # The amount of epochs the code will run for
+num_epochs = 10000 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
 model = Model()
@@ -234,20 +235,23 @@ with tf.Session() as sess:
 # #     print(score)
 #prediction_file = ["/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv"]
 
+movie_list = []
+
 with open('/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv') as f:
     for line in f:
         input_prediction = np.fromstring(line, dtype = float, sep = '\t')
-        print(Predict(model, np.reshape(input_prediction, (1, 31))))
+        #print(Predict(model, np.reshape(input_prediction, (1, 31))))
+        movie_list.append([input_prediction[0], Predict(model, np.reshape(input_prediction, (1, 31)))])
+print(movie_list)
 
 
 
-movie_list = []
 
 # for x in train_dataset:
 #     y = model(x)
 #     movie_list.append(x[0])
-movie_list = sorted(movie_list, reverse = True)
-print(movie_list)
+# movie_list = sorted(movie_list, reverse = True)
+# print(movie_list)
 
 
 
