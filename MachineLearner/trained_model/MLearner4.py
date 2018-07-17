@@ -159,7 +159,7 @@ class Model:
 train_loss_results = []
 ## train_accuracy_results = []
 
-num_epochs = 10000 + 1  # The amount of epochs the code will run for
+num_epochs = 25000 + 1  # The amount of epochs the code will run for
 save_frequency = 50
 
 model = Model()
