@@ -4,9 +4,10 @@ from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+from kivy.uix.boxlayout import BoxLayout
 
 from kivy.core.window import Window
-Window.clearcolor = (1, 1, 1, 1)
+Window.clearcolor = (0.176, 0.203, 0.211, 1)
 
 sm = ScreenManager()
 
@@ -46,8 +47,10 @@ class Discover(Screen):
 class Settings(Screen):
     pass
 
-# class CustomDropDown(DropDown):
-#     pass
+class CustomDropDown(BoxLayout):
+    pass
+
+
 
 # dropdown = CustomDropDown()
 # mainbutton = Button(text='Choose a genre', size_hint=(None, None))
