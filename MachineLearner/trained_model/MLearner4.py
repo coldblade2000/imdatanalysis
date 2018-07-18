@@ -21,7 +21,7 @@ import Recommender.Recommender as rec
 * DONE Find out wtf is happening with the loss function, as it always gives a huge number at the first epoch then 1.066 every subsequent epoch
 * Manage to predict ratings based on different inputs
 * DONE Implement a training dataset
-* Make a for loop that would run code 30 or so times to give us a list of highly rated movies
+* DONE Make a for loop that would run code 30 or so times to give us a list of highly rated movies
 * Take in the corrected ratings from the userratings.tsv file and use them to retrain the machine learner. Right now they're only trained 
     based on the IMDB ratings. Training multiple times using the same list of userratings would probably do the trick, but IDK
 *Pass all the movies through the loss order in decending order
@@ -164,24 +164,32 @@ folder_path = './trained_model/'
 train_loss_results = []
 
 
-def Train2ElectricBoogaloo():
+def Train2ElectricBoogaloo(load=True):
     train_loss_results = []
     ## train_accuracy_results = []
     num_epochs = 25000 + 1  # The amount of epochs the code will run for
     save_frequency = 50
     model = Model()
     saver = tf.train.Saver()
-    folder_path = './trained_model/'
+    folder_path = './movie_app/'
 
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
     with tf.Session() as sess:
-        checkpoint = tf.train.get_checkpoint_state(folder_path)
-        saver.restore(sess, checkpoint.model_checkpoint_path)
+
         training_best = 0
         min_loss = 10
-        sess.run(tf.global_variables_initializer())
+        try:
+            if not load:
+                raise Exception('Do not load')
+            checkpoint = tf.train.get_checkpoint_state(folder_path)
+            saver.restore(sess, checkpoint.model_checkpoint_path)
+            print('Model restored from saved training data.')
+        except:
+            sess.run(tf.global_variables_initializer())
+            print('Initialized new model')
+
         for epoch in range(num_epochs):  # Training the model, will train for 300 epochs
             ## epoch_accuracy = tfe.metrics.Accuracy()
             # Get next batch of examples and labels
