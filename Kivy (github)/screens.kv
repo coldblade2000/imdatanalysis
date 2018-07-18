@@ -1,9 +1,12 @@
 #kivy.require("1.10.0")
 <BootUp>:
     name: 'boot_up'
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'center'
+    FloatLayout:
+        Image:
+            source: 'Kuva_logo_red.png'
+            size_hint: 0.5, 0.5
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+
 
         Button:
             text: 'Click Here to Begin'
@@ -14,6 +17,7 @@
             border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
 #            background_normal: ''
 #            background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'sign_up'
