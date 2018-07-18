@@ -30,7 +30,23 @@
         Label:
             text: 'Create an Account'
             color: 1, 1, 1, 1
+            font_size: 30
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+
+        TextInput:
+            text: 'Email'
+            size_hint: 0.3, 0.08
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+
+        TextInput:
+            text: 'Username'
+            size_hint: 0.3, 0.08
             pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+
+        TextInput:
+            text: 'Password'
+            size_hint: 0.3, 0.08
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
         Button:
             text: 'Sign Up'
@@ -41,7 +57,7 @@
             border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
-            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.35}
             on_release: app.root.current = 'movie_input'
 
         Button:
@@ -53,17 +69,30 @@
             border: 5, 5, 5, 5
             size: 500, 100
             size_hint: None, None
-            pos_hint: {'center_x': 0.5, 'center_y': 0.11}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.13}
             on_release: app.root.current = 'sign_in'
 
 <SignIn>:
     name: 'sign_in'
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'bottom'
+    FloatLayout:
+        Label:
+            text: 'Sign In'
+            color: 1, 1, 1, 1
+            font_size: 30
+            pos_hint: {'center_x': 0.5, 'center_y': 0.85}
+
+        TextInput:
+            text: 'Username'
+            size_hint: 0.3, 0.08
+            pos_hint: {'center_x': 0.5, 'center_y': 0.7}
+
+        TextInput:
+            text: 'Password'
+            size_hint: 0.3, 0.08
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
 
         Button:
-            text: 'Continue'
+            text: 'Sign In'
             bold: 'True'
             markup: 'True'
             background_normal: 'normal_red.png'
@@ -71,16 +100,14 @@
             border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.45}
             on_release: app.root.current = 'movie_input'
 
 <MovieInput>:
     name: 'movie_input'
-#    BoxLayout:
-#        orientation: 'vertical'
-
     GridLayout:
         cols: 4
-        size_hint: 1, 1
+        size_hint: 1, 0.8
 
         ToggleButton:
             group: 'genre'
@@ -323,6 +350,11 @@
             text: ''
 
     FloatLayout:
+        Label:
+            text: 'Choose Your Favorite Genre'
+            font_size: 30
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+
         Button:
             text: 'Continue'
             bold: 'True'
@@ -332,14 +364,14 @@
             border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
-            pos_hint: {'center_x': 0.5, 'center_y': 0.13}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
             on_release: app.root.current = 'movie_input2'
 
 <MovieInput2>:
     name: 'movie_input2'
     GridLayout:
         cols: 3
-        size_hint: 1, 1
+        size_hint: 1, 0.8
 
         ToggleButton:
             text: 'Incredibles 2'
@@ -399,6 +431,11 @@
             text: ''
 
     FloatLayout:
+        Label:
+            text: 'Choose Movies You Have Seen and Liked'
+            font_size: 30
+            pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+
         Button:
             text: 'Continue'
             bold: 'True'
@@ -424,8 +461,8 @@
 
         Label:
             text: 'Your responses have been recorded.'
-            font_size: 18
-            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+            font_size: 20
+            pos_hint: {'center_x': 0.5, 'center_y': 0.45}
             color: 1, 1, 1, 1
 
         Button:
@@ -452,7 +489,6 @@
                 bold: 'True'
                 background_normal: ''
                 background_color: 0.839, 0.188, 0.192, 1
-                on_release: app.root.current = 'home'
             Label:
                 text: ' '
 
@@ -486,6 +522,7 @@
                 bold: 'True'
                 background_normal: ''
                 background_color: 0.839, 0.188, 0.192, 1
+                on_release: app.root.current = 'home'
             Label:
                 text: ' '
 
