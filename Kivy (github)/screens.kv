@@ -8,14 +8,15 @@
         Button:
             text: 'Click Here to Begin'
             bold: 'True'
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
-            background_normal: ''
-            background_color: 0.839, 0.188, 0.192, 1
+#            background_normal: ''
+#            background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'sign_up'
-
-#            Image:
-#                source: 'Movie Placeholder Image.png'
 
 <SignUp>:
     name: 'sign_up'
@@ -23,14 +24,16 @@
 
         Label:
             text: 'Create an Account'
-            color: 0, 0, 0, 1
-            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+            color: 1, 1, 1, 1
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
 
         Button:
             text: 'Sign Up'
             bold: 'True'
-            background_normal: ''
-            background_color: 0.839, 0.188, 0.192, 1
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
             pos_hint: {'center_x': 0.5, 'center_y': 0.3}
@@ -39,11 +42,13 @@
         Button:
             text: 'Already have an account? Sign in here.'
             bold: 'True'
-            background_normal: ''
-            background_color: 0.839, 0.188, 0.192, 1
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
             size: 500, 100
             size_hint: None, None
-            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.11}
             on_release: app.root.current = 'sign_in'
 
 <SignIn>:
@@ -55,200 +60,290 @@
         Button:
             text: 'Continue'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
             size: 200, 100
             size_hint: None, None
             on_release: app.root.current = 'movie_input'
 
 <MovieInput>:
     name: 'movie_input'
-    BoxLayout:
-        orientation: 'vertical'
+#    BoxLayout:
+#        orientation: 'vertical'
 
-        GridLayout:
-            cols: 4
-            size_hint: 1, 1
+    GridLayout:
+        cols: 4
+        size_hint: 1, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Action'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Action'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Adventure'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Adventure'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Animation'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Animation'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Biography'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Biography'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Comedy'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Comedy'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Crime'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Crime'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Documentary'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Documentary'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Drama'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Drama'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Family'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Family'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Fantasy'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Fantasy'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Film Noir'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Film Noir'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'History'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'History'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Horror'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Horror'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Music'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Music'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Musical'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Musical'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Mystery'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Mystery'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Romance'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Romance'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Sci-Fi'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Sci-Fi'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Short'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Short'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Sport'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Sport'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Superhero'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Superhero'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Thriller'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Thriller'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'War'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'War'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-            ToggleButton:
-                group: 'genre'
-                text: 'Western'
-                bold: 'True'
+        ToggleButton:
+            group: 'genre'
+            text: 'Western'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
-#            Label:
-#                text: ' '
-#
-#            Label:
-#                text: ' '
+        Label:
+            text: ''
 
-        AnchorLayout:
-            anchor_x: 'center'
-            anchor_y: 'bottom'
+        Label:
+            text: ''
 
-            Button:
-                text: 'Continue'
-                bold: 'True'
-                background_normal: ''
-                background_color: 255, 0, 0, 1
-                size: 200, 100
-                size_hint: None, None
-    #            pos: (100, 100)
-                on_release: app.root.current = 'movie_input2'
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+    FloatLayout:
+        Button:
+            text: 'Continue'
+            bold: 'True'
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
+            size: 200, 100
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.13}
+            on_release: app.root.current = 'movie_input2'
 
 <MovieInput2>:
     name: 'movie_input2'
     GridLayout:
         cols: 3
-        size_hint: 1, 0.8
+        size_hint: 1, 1
 
         ToggleButton:
             text: 'Incredibles 2'
-            bold: 'True'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
         ToggleButton:
             text: 'Raining Dogs and Cats'
-            bold: 'True'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
         ToggleButton:
             text: 'Pure Comedy'
-            bold: 'True'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
         ToggleButton:
             text: 'Danger Ranger'
-            bold: 'True'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
         ToggleButton:
             text: 'Exploration'
-            bold: 'True'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
         ToggleButton:
             text: 'Volcanic'
-            bold: 'True'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
         Label:
-            text: ' '
-            bold: 'True'
+            text: ''
 
+        Label:
+            text: ''
+
+        Label:
+            text: ''
+
+    FloatLayout:
         Button:
             text: 'Continue'
             bold: 'True'
-            background_normal: ''
-            background_color: 255, 0, 0, 1
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
+            size: 200, 100
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.15}
             on_release: app.root.current = 'waiting'
 
 <Waiting>:
@@ -256,17 +351,23 @@
 
     BoxLayout:
         orientation: 'vertical'
+
         Label:
             text: 'Thank You!'
-            color: 0, 0, 0, 1
+            font_size: 80
+            color: 1, 1, 1, 1
+
         Label:
             text: 'Your responses have been recorded.'
-            color: 0, 0, 0, 1
+            font_size: 18
+            color: 1, 1, 1, 1
+
         Button:
             text: '...the AI is now processing your data...'
+            font_size: 18
             bold: 'True'
             background_normal: ''
-            background_color: 255, 0, 0, 1
+            background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'how_to'
 
 <HowTo>:
@@ -278,7 +379,7 @@
                 text: 'you tell us what movies you have seen'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
                 on_release: app.root.current = 'home'
             Label:
                 text: ' '
@@ -289,7 +390,7 @@
                 text: 'answer a few quick questions for us'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
             Label:
                 text: ' '
 
@@ -299,7 +400,7 @@
                 text: 'our computer wizards will do some behind the scenes work'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
             Label:
                 text: ' '
 
@@ -309,7 +410,7 @@
                 text: 'then, based on your preferences, we can recommend movies to you!'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
             Label:
                 text: ' '
 
@@ -323,27 +424,51 @@
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
     BoxLayout:
         orientation: 'horizontal'
@@ -353,20 +478,20 @@
             text: 'Discover'
             bold: 'True'
             background_normal: ''
-            background_color: 255, 0, 0, 1
+            background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'discover'
 
         Button:
             text: 'Home'
             bold: 'True'
             background_normal: ''
-            background_color: 255, 0, 0, 1
+            background_color: 0.839, 0.188, 0.192, 1
 
         Button:
             text: 'Settings'
             bold: 'True'
             background_normal: ''
-            background_color: 255, 0, 0, 1
+            background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'settings'
 
 
@@ -380,27 +505,51 @@
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
             Button:
                 text: ' '
+                color: 0, 0, 0, 1
+                background_normal: ''
+                background_color: 0.819, 0.819, 0.819, 1
 
         BoxLayout:
             orientation: 'horizontal'
@@ -410,20 +559,20 @@
                 text: 'Discover'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
 
             Button:
                 text: 'Home'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
                 on_release: app.root.current = 'home'
 
             Button:
                 text: 'Settings'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
                 on_release: app.root.current = 'settings'
 
 <Settings>:
@@ -433,6 +582,9 @@
 
         Button:
             text: 'Settings'
+            color: 0, 0, 0, 1
+            background_normal: ''
+            background_color: 0.819, 0.819, 0.819, 1
 
         BoxLayout:
             orientation: 'horizontal'
@@ -442,19 +594,18 @@
                 text: 'Discover'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
                 on_release: app.root.current = 'discover'
 
             Button:
                 text: 'Home'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
+                background_color: 0.839, 0.188, 0.192, 1
                 on_release: app.root.current = 'home'
 
             Button:
                 text: 'Settings'
                 bold: 'True'
                 background_normal: ''
-                background_color: 255, 0, 0, 1
-
+                background_color: 0.839, 0.188, 0.192, 1
