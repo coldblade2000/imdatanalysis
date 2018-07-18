@@ -103,6 +103,18 @@
             pos_hint: {'center_x': 0.5, 'center_y': 0.45}
             on_release: app.root.current = 'movie_input'
 
+        Button:
+            text: 'Just kidding. I need to make an account. Go back to Sign Up.'
+            bold: 'True'
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 0, 0, 0, 0
+            size: 500, 100
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.13}
+            on_release: app.root.current = 'sign_up'
+
 <MovieInput>:
     name: 'movie_input'
     GridLayout:
