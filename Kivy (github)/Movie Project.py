@@ -50,13 +50,6 @@ class Settings(Screen):
 class CustomDropDown(BoxLayout):
     pass
 
-
-
-# dropdown = CustomDropDown()
-# mainbutton = Button(text='Choose a genre', size_hint=(None, None))
-# mainbutton.bind(on_release=dropdown.open)
-# dropdown.bind(on_select=lambda instance, x: setattr(mainbutton, 'text', x))
-
 Builder.load_file("screens.kv")
 
 sm = ScreenManager(transition=NoTransition())
