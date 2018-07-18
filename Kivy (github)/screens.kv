@@ -1,4 +1,6 @@
 #kivy.require("1.10.0")
+#:import Clock kivy.clock.Clock
+
 <BootUp>:
     name: 'boot_up'
     FloatLayout:
@@ -6,7 +8,6 @@
             source: 'Kuva_logo_red.png'
             size_hint: 0.5, 0.5
             pos_hint: {'center_x': 0.5, 'center_y': 0.6}
-
 
         Button:
             text: 'Click Here to Begin'
@@ -413,25 +414,31 @@
 <Waiting>:
     name: 'waiting'
 
-    BoxLayout:
-        orientation: 'vertical'
+    FloatLayout:
 
         Label:
             text: 'Thank You!'
             font_size: 80
+            pos_hint: {'center_x': 0.5, 'center_y': 0.8}
             color: 1, 1, 1, 1
 
         Label:
             text: 'Your responses have been recorded.'
             font_size: 18
+            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
             color: 1, 1, 1, 1
 
         Button:
             text: '...the AI is now processing your data...'
             font_size: 18
             bold: 'True'
-            background_normal: ''
-            background_color: 0.839, 0.188, 0.192, 1
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 5, 5, 5, 5
+            size: 500, 100
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.1}
             on_release: app.root.current = 'how_to'
 
 <HowTo>:
@@ -554,8 +561,6 @@
                 background_normal: 'secondary_normal_gray.png'
                 background_down: 'secondary_down_red.png'
 
-
-
     BoxLayout:
         orientation: 'horizontal'
         size_hint: 1, 0.1
@@ -580,7 +585,6 @@
             background_color: 0.839, 0.188, 0.192, 1
             on_release: app.root.current = 'settings'
 
-
 <Discover>:
     name: 'discover'
     BoxLayout:
@@ -592,50 +596,66 @@
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
             Button:
                 text: ' '
                 color: 0, 0, 0, 1
-                background_normal: ''
-                background_color: 0.819, 0.819, 0.819, 1
+                markup: 'True'
+                border: 0, 0, 0, 0
+                background_normal: 'secondary_normal_gray.png'
+                background_down: 'secondary_down_red.png'
 
         BoxLayout:
             orientation: 'horizontal'
