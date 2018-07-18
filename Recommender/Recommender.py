@@ -35,6 +35,14 @@ def returnactorcoincidences(dictionary):
     return coincidences
 
 
+def getFullid(type, number):
+    number = str(int(number))
+    fullstr = "" + type
+    for x in range(7 - len(number)):
+        fullstr = fullstr + "0"
+    fullstr = fullstr + str(number)
+    return fullstr
+
 def getRating(id):
     try:
         mRatings = ratings.set_index("id")
