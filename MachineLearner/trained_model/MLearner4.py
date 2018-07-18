@@ -1,12 +1,11 @@
-import tensorflow as tf
-import numpy as np
 # import tensorflow.contrib.eager as tfe
-import os
 # import tensorflow.contrib.eager as tfe
 import os
 
 import numpy as np
 import tensorflow as tf
+
+import Recommender.Recommender as rec
 
 # tfe.enable_eager_execution()
 
@@ -165,7 +164,6 @@ folder_path = './trained_model/'
 train_loss_results = []
 
 
-
 def Train2ElectricBoogaloo():
     train_loss_results = []
     ## train_accuracy_results = []
@@ -179,6 +177,8 @@ def Train2ElectricBoogaloo():
         os.makedirs(folder_path)
 
     with tf.Session() as sess:
+        checkpoint = tf.train.get_checkpoint_state(folder_path)
+        saver.restore(sess, checkpoint.model_checkpoint_path)
         training_best = 0
         min_loss = 10
         sess.run(tf.global_variables_initializer())
@@ -247,7 +247,7 @@ def Train2ElectricBoogaloo():
 path = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv'
 
 
-def predict(filepath):
+def predictFromFile(filepath):
     movie_list = []
     with tf.Session() as sess:
         checkpoint = tf.train.get_checkpoint_state(folder_path)
@@ -258,8 +258,7 @@ def predict(filepath):
             for line in f:
                 if not first:
                     input_prediction = np.fromstring(line, dtype=float, sep='\t')
-                    # print(Predict(model, np.reshape(input_prediction, (1, 31))))
-                    titleid = "tt" + str(input_prediction[0])
+                    titleid = rec.getFullid("tt", input_prediction[0])
                     reshaped_data = np.reshape(input_prediction, (1, 31))
                     prediction = Predict(model, reshaped_data)
                     prediction = [titleid, prediction]
@@ -270,7 +269,18 @@ def predict(filepath):
     return movie_list
 
 
-predict(path)
+def predict(input_prediction):
+    # (1,31) matrix
+    with tf.Session() as sess:
+        checkpoint = tf.train.get_checkpoint_state(folder_path)
+        saver.restore(sess, checkpoint.model_checkpoint_path)
+        reshaped_data = np.reshape(input_prediction, (1, 31))
+        prediction = Predict(model, reshaped_data)
+    return prediction[0]
+
+
+Train2ElectricBoogaloo()
+# predictFromFile(path)
 # with tf.Session() as sess:
 #     # check our folder for saved checlpoints
 #     checkpoint = tf.train.get_checkpoint_state(folder_path)

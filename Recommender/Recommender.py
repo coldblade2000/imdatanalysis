@@ -2,7 +2,7 @@ import json
 
 import pandas as pd
 
-ratings = pd.DataFrame.from_csv("../sheets/userratings.tsv", sep="\t")
+ratings = pd.DataFrame.from_csv("~/PycharmProjects/imdatanalysis/sheets/userratings.tsv", sep="\t")
 ratings = ratings.loc[ratings['type'] == 'nm']
 
 
@@ -43,6 +43,7 @@ def getFullid(type, number):
     fullstr = fullstr + str(number)
     return fullstr
 
+
 def getRating(id):
     try:
         mRatings = ratings.set_index("id")
@@ -52,10 +53,10 @@ def getRating(id):
         avgRatings = pd.DataFrame.from_csv("../sheets/ratings.tsv", sep="\t")
         return avgRatings.loc[id]["averageRating"]
 
-billingdfOG = pd.DataFrame.from_csv("../sheets/Processed/MoviesBilling2Trunc.tsv", sep="\t")
-billingdf = billingdfOG.sample(n=100)
-# TODO delete these two debug inputs
-billingdf = billingdf.append(billingdfOG.loc[114709])
-billingdf = billingdf.append(billingdfOG.loc[133093])
-actorDict = movieslookup(billingdf)
-actorcoincidences = returnactorcoincidences(actorDict)
+# billingdfOG = pd.DataFrame.from_csv("../sheets/Processed/MoviesBilling2Trunc.tsv", sep="\t")
+# billingdf = billingdfOG.sample(n=100)
+# # TODO delete these two debug inputs
+# billingdf = billingdf.append(billingdfOG.loc[114709])
+# billingdf = billingdf.append(billingdfOG.loc[133093])
+# actorDict = movieslookup(billingdf)
+# actorcoincidences = returnactorcoincidences(actorDict)
