@@ -78,16 +78,14 @@ train_dataset = train_dataset.repeat()
 # features, labels = next(iter(train_dataset))
 next_training = train_dataset.make_one_shot_iterator().get_next()
 
+path = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv'
 
 #try to find how to use parallel models
 
 
 # Creates a neural network model. First hidden layer has 17 neurons, the second 10 and it has 1 output
 #
-# model = tf.keras.Sequential([
-#   #tf.keras.layers.Dense(796, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
-#   tf.keras.layers.Dense(800, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)), #under1.1 = 306 min = 1.88
-#   #tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 231 min = 1.089
+
 #   #tf.keras.layers.Dense(950, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 16
 #   #tf.keras.layers.Dense(900, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # under1.1 = 304 min 1.088
 #   #tf.keras.layers.Dense(750, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)), TOO LOW
@@ -96,28 +94,127 @@ next_training = train_dataset.make_one_shot_iterator().get_next()
 #   #tf.keras.layers.Dense(200, activation=tf.nn.relu),
 #   #tf.keras.layers.Dense(128, activation=tf.nn.tanh),
 #   tf.keras.layers.Dense(1)  # 1 output neuron as rating
+
+# model = tf.keras.Sequential([
+#   #tf.keras.layers.Dense(796, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),  # input shape required
+#   tf.keras.layers.Dense(800, activation=tf.nn.relu, input_shape=(INPUT_SIZE,)), #under1.1 = 306 min = 1.88
+#   #tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 231 min = 1.089
 # ])
 
+class Model:
+    def __init__(self, input_size=INPUT_SIZE, hidden_size = 800, rating_scale=10,
+                 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.00005)):
+        #These are the inputs that have been provided by Diego
+        self.inputs = tf.placeholder(tf.float32, [None, input_size])
+        #We have one hidden layer with 800 neurons
+        self.hidden = tf.layers.dense(self.inputs, hidden_size, activation = tf.nn.tanh)
+        #This condenses the hidden layer into a single layer
+        self.prediction_raw = tf.layers.dense(self.hidden, 1)
+        #This scales the number into an actual prediction on a scale of 1 to 10
+        self.prediction = rating_scale * tf.nn.sigmoid(self.prediction_raw)
+        #This makes sure that the shape of the data is compatable with the AI
+        self.prediction = tf.squeeze(self.prediction, axis=1)
+        #This is the tru+e IMDB rating
+        self.actual_rating = tf.placeholder(tf.float32, [None,])
+        #This is the loss which shows how incorrect the AI is
+        self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
+        #This is where we actually train the AI to become smarter
+        self.train = optimizer.minimize(self.loss)
+
+
+    #Just like the name states, this is how the AI predicts what movies the user will like
 def Predict(model, input_features):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         predictions = sess.run(model.prediction, {model.inputs: input_features})
         return predictions
 
+def Train2ElectricBoogaloo(load=True):
+    train_loss_results = []
+    ## train_accuracy_results = []
+    num_epochs = 100000 + 1  # The amount of epochs the code will run for
+    save_frequency = 50
+    model = Model()
+    saver = tf.train.Saver()
+    folder_path = './movie_app/'
 
-class Model:
-    def __init__(self, input_size=INPUT_SIZE, hidden_size = 800, rating_scale=10,
-                 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.00005)):
-        self.inputs = tf.placeholder(tf.float32, [None, input_size])
-        self.hidden = tf.layers.dense(self.inputs, hidden_size, activation = tf.nn.tanh)
-        self.prediction_raw = tf.layers.dense(self.hidden, 1)
-        self.prediction = rating_scale * tf.nn.sigmoid(self.prediction_raw)
-        self.prediction = tf.squeeze(self.prediction, axis=1)
-        self.actual_rating = tf.placeholder(tf.float32, [None,])
-        self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
-        self.train = optimizer.minimize(self.loss)
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    with tf.Session() as sess:
+
+        training_best = 0
+        min_loss = 10
+        try:
+            if not load:
+                raise Exception('Do not load')
+            checkpoint = tf.train.get_checkpoint_state(folder_path)
+            saver.restore(sess, checkpoint.model_checkpoint_path)
+            print('Model restored from saved training data.')
+        except:
+            sess.run(tf.global_variables_initializer())
+            print('Initialized new model')
+
+        for epoch in range(num_epochs):  # Training the model, will train for 80000 epochs
+            ## epoch_accuracy = tfe.metrics.Accuracy()
+            # Get next batch of examples and labels
+            features, labels = sess.run(next_training)
+            # print('Features:', features.shape,'\n',features)
+            # print('Features:', labels.shape,'\n',labels)
+            # Training loop - using batches of 64
+            # for x, y in train_dataset:
+            #     # Optimize the model
+            #     loss_value, grads = grad(model, x, y)
+            #     optimizer.apply_gradients(zip(grads, model.variables),
+            #                               global_step)
+            #
+            #     # Track progress
+            #     epoch_loss_avg(loss_value)  # add current batch loss
+            #     # compare predicted label to actual label
+            #     ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
+            feed_dict = {model.inputs: features, model.actual_rating: labels}
+            sess.run(model.train, feed_dict)
+            loss = sess.run(model.loss, feed_dict)
+            # end epoch
+            train_loss_results.append(loss)
+            ## train_accuracy_results.append(epoch_accuracy.result())
+
+            if epoch % 1000 == 0:  # Print loss every 1000 epochs
+                print("Epoch {:03d}: Loss: {:.3f}".format(epoch, loss))
+            if loss < 1.100:
+                training_best += 1
+            min_loss = min(min_loss, loss)
+
+            if epoch % save_frequency == 0 and epoch != 0:
+                saver.save(sess, folder_path + 'pg-checkpoint', epoch)
+
+        print('Training finished.')
+        saver.save(sess, folder_path + './trained_model/', epoch)
+        print('Model was restored from saved training data.')
+        print('The model data was saved to /trained_model/.')
+        print("Epoch beneath 1: " + str(training_best) + " times. The lowest value was: " + str(min_loss))
 
 
+def predictFromFile(filepath):
+    movie_list = []
+    with tf.Session() as sess:
+        checkpoint = tf.train.get_checkpoint_state(folder_path)
+        saver.restore(sess, checkpoint.model_checkpoint_path)
+
+        with open(filepath, "r") as f:
+            first = True
+            for line in f:
+                if not first:
+                    input_prediction = np.fromstring(line, dtype=float, sep='\t')
+                    titleid = rec.getFullid("tt", input_prediction[0])
+                    reshaped_data = np.reshape(input_prediction, (1, 31))
+                    prediction = Predict(model, reshaped_data)
+                    prediction = [titleid, prediction]
+                    print('Prediction:', prediction)
+                    movie_list.append(prediction)
+                else:
+                    first = False
+    return movie_list
 
 # # Predictions, may or may not be debug code
 # predictions = model(features)
@@ -172,69 +269,6 @@ folder_path = './trained_model/'
 train_loss_results = []
 
 
-def Train2ElectricBoogaloo(load=True):
-    train_loss_results = []
-    ## train_accuracy_results = []
-    num_epochs = 80000 + 1  # The amount of epochs the code will run for
-    save_frequency = 50
-    model = Model()
-    saver = tf.train.Saver()
-    folder_path = './movie_app/'
-
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-
-    with tf.Session() as sess:
-
-        training_best = 0
-        min_loss = 10
-        try:
-            if not load:
-                raise Exception('Do not load')
-            checkpoint = tf.train.get_checkpoint_state(folder_path)
-            saver.restore(sess, checkpoint.model_checkpoint_path)
-            print('Model restored from saved training data.')
-        except:
-            sess.run(tf.global_variables_initializer())
-            print('Initialized new model')
-
-        for epoch in range(num_epochs):  # Training the model, will train for 300 epochs
-            ## epoch_accuracy = tfe.metrics.Accuracy()
-            # Get next batch of examples and labels
-            features, labels = sess.run(next_training)
-            # print('Features:', features.shape,'\n',features)
-            # print('Features:', labels.shape,'\n',labels)
-            # Training loop - using batches of 64
-            # for x, y in train_dataset:
-            #     # Optimize the model
-            #     loss_value, grads = grad(model, x, y)
-            #     optimizer.apply_gradients(zip(grads, model.variables),
-            #                               global_step)
-            #
-            #     # Track progress
-            #     epoch_loss_avg(loss_value)  # add current batch loss
-            #     # compare predicted label to actual label
-            #     ## epoch_accuracy(tf.argmax(model(x), axis=1, output_type=tf.float32), y)
-            feed_dict = {model.inputs: features, model.actual_rating: labels}
-            sess.run(model.train, feed_dict)
-            loss = sess.run(model.loss, feed_dict)
-            # end epoch
-            train_loss_results.append(loss)
-            ## train_accuracy_results.append(epoch_accuracy.result())
-
-            if epoch % 1000 == 0:  # Print loss every 10 epochs
-                print("Epoch {:03d}: Loss: {:.3f}".format(epoch, loss))
-            if loss < 1.100:
-                training_best += 1
-            min_loss = min(min_loss, loss)
-
-            if epoch % save_frequency == 0 and epoch != 0:
-                saver.save(sess, folder_path + 'pg-checkpoint', epoch)
-
-        print('Training finished.')
-        saver.save(sess, folder_path + './trained_model/', epoch)
-
-        print("Epoch beneath 1.1: " + str(training_best) + " Lowest Value: " + str(min_loss))
 
 
 
@@ -259,30 +293,6 @@ def Train2ElectricBoogaloo(load=True):
 # #     score = Predict(model, line)
 # #     print(score)
 #prediction_file = ["/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv"]
-
-path = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv'
-
-
-def predictFromFile(filepath):
-    movie_list = []
-    with tf.Session() as sess:
-        checkpoint = tf.train.get_checkpoint_state(folder_path)
-        saver.restore(sess, checkpoint.model_checkpoint_path)
-
-        with open(filepath, "r") as f:
-            first = True
-            for line in f:
-                if not first:
-                    input_prediction = np.fromstring(line, dtype=float, sep='\t')
-                    titleid = rec.getFullid("tt", input_prediction[0])
-                    reshaped_data = np.reshape(input_prediction, (1, 31))
-                    prediction = Predict(model, reshaped_data)
-                    prediction = [titleid, prediction]
-                    print('Prediction:', prediction)
-                    movie_list.append(prediction)
-                else:
-                    first = False
-    return movie_list
 
 
 def predict(input_prediction):
