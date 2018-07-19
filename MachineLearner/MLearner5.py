@@ -50,22 +50,22 @@ label_name = columns[3]
 
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
-train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'],
-    batch_size,
-    column_names=columns,
-    label_name=label_name,
-    field_delim="\t",
-    shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
-    num_epochs=1)
 # train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-#     ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/usertitleratingsML.tsv'],
+#     ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'],
 #     batch_size,
 #     column_names=columns,
 #     label_name=label_name,
 #     field_delim="\t",
 #     shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
 #     num_epochs=1)
+train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
+    ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/usertitleratingsML.tsv'],
+    batch_size,
+    column_names=columns,
+    label_name=label_name,
+    field_delim="\t",
+    shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
+    num_epochs=1)
 
 train_dataset = train_dataset.map(pack_features_vector)  # Runs the pack_features_vector function on the dataset
 
@@ -116,13 +116,13 @@ class Model:
         self.prediction = tf.squeeze(self.prediction, axis=1)
         #This is the tru+e IMDB rating
         self.actual_rating = tf.placeholder(tf.float32, [None,])
-        #This is the loss which shows how incorrect the machine learner is
+        #This is the loss which shows how incorrect the AI is
         self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
-        #This is where we actually train the machine Ito become smarter
+        #This is where we actually train the AI to become smarter
         self.train = optimizer.minimize(self.loss)
 
 
-    #Just like the name states, this is how the machine predicts what movies the user will like
+    #Just like the name states, this is how the AI predicts what movies the user will like
 def Predict(model, input_features):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())

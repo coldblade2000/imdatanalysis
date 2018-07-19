@@ -1,9 +1,8 @@
-import pandas as pd
-import tensorflow as tf
-import numpy as np
+import os
+
 # import tensorflow.contrib.eager as tfe
 import matplotlib.pyplot as plt
-import os
+import tensorflow as tf
 
 # tfe.enable_eager_execution()
 
@@ -214,7 +213,7 @@ class Model:
 #Train(50000, 50, folder_path, True)
 Train(num_epochs = 70000, save_frequency = 50, folder_path = './trained_model', load_model = False)
 
-# # Predictions, may or may not be debug code
+# # Predictions, m0ay or may not be debug code
 # predictions = model(features)
 # print("    Predictions: {}".format(predictions))
 #

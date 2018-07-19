@@ -1,12 +1,10 @@
 #kivy.require("1.10.0")
 from kivy.app import App
-from kivy.lang import Builder
-from kivy.uix.button import Button
-from kivy.uix.dropdown import DropDown
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
-from kivy.uix.boxlayout import BoxLayout
-
 from kivy.core.window import Window
+from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+
 Window.clearcolor = (0.176, 0.203, 0.211, 1)
 
 sm = ScreenManager()
@@ -29,7 +27,8 @@ class SignIn(Screen):
 class MovieInput(Screen):
     pass
 
-class MovieInput2(Screen):
+
+class MovieInput2(Screen):  # Actual list
     pass
 
 class Waiting(Screen):
