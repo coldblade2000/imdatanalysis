@@ -25,6 +25,11 @@ def movieslookup(billing):
     return dict
 
 
+def independentUserRatingFile():
+    ratings = pd.DataFrame.from_csv("~/PycharmProjects/imdatanalysis/sheets/userratings.tsv", sep="\t")
+    # titles[titles.endYear.str.contains("N") == True]
+    titleDF[titleDF.type.str.contains("tt") == True].to_csv("../sheets/usertitleratings.tsv", sep="\t")
+
 def returnactorcoincidences(dictionary):
     """:type dictionary: dict"""
     coincidences = []

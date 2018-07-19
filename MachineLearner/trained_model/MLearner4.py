@@ -50,8 +50,16 @@ label_name = columns[3]
 
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
+# train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
+#     ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'],
+#     batch_size,
+#     column_names=columns,
+#     label_name=label_name,
+#     field_delim="\t",
+#     shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
+#     num_epochs=1)
 train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'],
+    ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/usertitleratingsML.tsv'],
     batch_size,
     column_names=columns,
     label_name=label_name,

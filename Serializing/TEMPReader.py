@@ -207,6 +207,7 @@ def truncSheets():
     titleDF.to_csv("../sheets/Processed/MoviesTrunc.tsv", sep="\t")
     titleDF.head(3)
 
+
 def fixGenres():
     titleDF = pd.DataFrame.from_csv("../sheets/Processed/MoviesML.tsv", sep="\t")
     for idx, genre in enumerate(genreList):
