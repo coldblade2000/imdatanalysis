@@ -315,7 +315,7 @@ def suggest_titles(folder_path = './final_movie_app/', number_recomendations = 1
                 #     print(index,':',suggestion)
         return recomendations
 
-
+#True and false to vary between the training and preditions
 train = False
 if train:
     Train2ElectricBoogaloo(num_epochs=3000)
