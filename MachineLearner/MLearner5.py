@@ -7,10 +7,6 @@ import tensorflow as tf
 
 import Recommender.Recommender as rec
 
-from difflib import get_close_matches
-
-import pandas as pd
-
 # tfe.enable_eager_execution()
 
 #sess_cpu = tf.Session(config = tf.ConfigProto(device_count={'GPU': 0}))
@@ -54,22 +50,22 @@ label_name = columns[3]
 
 batch_size = 64  # The size of batches of movies that will be given to the machine learner at a time
 
-train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-    ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'],
-    batch_size,
-    column_names=columns,
-    label_name=label_name,
-    field_delim="\t",
-    shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
-    num_epochs=1)
 # train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
-#     ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/usertitleratingsML.tsv'],
+#     ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'],
 #     batch_size,
 #     column_names=columns,
 #     label_name=label_name,
 #     field_delim="\t",
 #     shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
 #     num_epochs=1)
+train_dataset = tf.contrib.data.make_csv_dataset(  # Load dataset from MoviesML.tsv
+    ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/usertitleratingsML.tsv'],
+    batch_size,
+    column_names=columns,
+    label_name=label_name,
+    field_delim="\t",
+    shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
+    num_epochs=1)
 
 train_dataset = train_dataset.map(pack_features_vector)  # Runs the pack_features_vector function on the dataset
 
@@ -105,8 +101,10 @@ path = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLSho
 #   #tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 231 min = 1.089
 # ])
 
+#Path = /home/student/PycharmProjects/imdatanalysis/sheets/Processed/usertitleratingsML.tsv
+
 class Model:
-    def __init__(self, input_size=INPUT_SIZE, hidden_size = 800, rating_scale=10,
+    def __init__(self, input_size=INPUT_SIZE, hidden_size = 1100, rating_scale=10,
                  optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.00005)):
         #These are the inputs that have been provided by Diego
         self.inputs = tf.placeholder(tf.float32, [None, input_size])
@@ -120,13 +118,13 @@ class Model:
         self.prediction = tf.squeeze(self.prediction, axis=1)
         #This is the tru+e IMDB rating
         self.actual_rating = tf.placeholder(tf.float32, [None,])
-        #This is the loss which shows how incorrect the machine learner is
+        #This is the loss which shows how incorrect the AI is
         self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
-        #This is where we actually train the machine Ito become smarter
+        #This is where we actually train the AI to become smarter
         self.train = optimizer.minimize(self.loss)
 
 
-    #Just like the name states, this is how the machine predicts what movies the user will like
+    #Just like the name states, this is how the AI predicts what movies the user will like
 def Predict(model, input_features):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
@@ -136,7 +134,7 @@ def Predict(model, input_features):
 def Train2ElectricBoogaloo(load=True):
     train_loss_results = []
     ## train_accuracy_results = []
-    num_epochs = 10000 + 1  # The amount of epochs the code will run for
+    num_epochs = 50000 + 1  # The amount of epochs the code will run for
     save_frequency = 50
     model = Model()
     saver = tf.train.Saver()
@@ -309,7 +307,7 @@ def predict(input_prediction):
     return prediction[0]
 
 
-# Train2ElectricBoogaloo()
+Train2ElectricBoogaloo()
 # predictFromFile(path)
 # with tf.Session() as sess:
 #     # check our folder for saved checlpoints
@@ -349,33 +347,3 @@ def predict(input_prediction):
 # axes[1].set_ylabel("Loss", fontsize=14)
 # axes[1].set_xlabel("Epoch", fontsize=14)
 # axes[1].plot(train_loss_results)
-
-
-#Find where I am saving and loading the model. It cannot find the right path YET
-def suggest_titles(model_path = 'trained_model/trained_model/', number_recomendations = 10, movies_csv = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'):
-    movies_csv = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'
-    movies = pd.read_csv(movies_csv, sep="\t")
-    movies.drop("averageRating", axis=1, inplace=True)
-    with tf.Session() as sess:
-        recomendations = []
-        saver = tf.train.Saver()
-        model = Model()
-        checkpoint = tf.train.get_checkpoint_state(model_path)
-        saver.restore(sess, checkpoint.model_checkpoint_path)
-        for index, row in movies.iterrows():
-            row = row.tolist()
-            feed = {
-              model.inputs: [row]
-            } #Curly braces = dictionary
-            predicted_rating = sess.run(model.prediction, feed)
-            suggestion = (row[0], predicted_rating)
-            recomendations.append(suggestion)
-            if len(recomendations) > number_recomendations:
-                recomendations = sorted(recomendations,
-                                        lambda suggestion: suggestion[1],
-                                        reverse= True
-                                        )[: number_recomendations]
-        return recomendations
-suggestions = suggest_titles()
-for sug in suggestions:
-    print(sug)

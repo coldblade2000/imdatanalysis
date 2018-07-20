@@ -103,6 +103,18 @@
             pos_hint: {'center_x': 0.5, 'center_y': 0.45}
             on_release: app.root.current = 'movie_input'
 
+        Button:
+            text: 'Just kidding. I need to make an account. Go back to Sign Up.'
+            bold: 'True'
+            markup: 'True'
+            background_normal: 'normal_red.png'
+            background_down: 'down_red.png'
+            border: 0, 0, 0, 0
+            size: 500, 100
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.13}
+            on_release: app.root.current = 'sign_up'
+
 <MovieInput>:
     name: 'movie_input'
     GridLayout:
@@ -369,6 +381,17 @@
 
 <MovieInput2>:
     name: 'movie_input2'
+#    RecycleGridLayout:
+#        cols: 4
+#        size_hint: 1, 0.8
+
+
+
+
+
+
+
+
     GridLayout:
         cols: 3
         size_hint: 1, 0.8
@@ -530,6 +553,7 @@
     name: 'home'
     BoxLayout:
         orientation: 'vertical'
+        popup: popup.__self__
 
         GridLayout:
             cols: 4
@@ -541,6 +565,7 @@
                 border: 0, 0, 0, 0
                 background_normal: 'secondary_normal_gray.png'
                 background_down: 'secondary_down_red.png'
+#                on_release: root.popup.open()
 
             Button:
                 text: ' '
@@ -597,6 +622,19 @@
                 border: 0, 0, 0, 0
                 background_normal: 'secondary_normal_gray.png'
                 background_down: 'secondary_down_red.png'
+
+#    Popup:
+#        id: popup
+#        title: 'Test popup'
+#        text: 'Hello'
+#        auto_dismiss: 'False'
+#        size_hint: None, None
+#        size: 400, 400
+#
+#        Button:
+#            text: 'Close'
+#            size: 200, 100
+#            on_release: root.popup.dismiss()
 
     BoxLayout:
         orientation: 'horizontal'
