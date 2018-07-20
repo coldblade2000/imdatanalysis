@@ -111,7 +111,7 @@ class Model:
         #These are the inputs that have been provided by Diego
         self.inputs = tf.placeholder(tf.float32, [None, input_size])
         #We have one hidden layer with 800 neurons
-        self.hidden = tf.layers.dense(self.inputs, hidden_size, activation = tf.nn.tanh)
+        self.hidden = tf.layers.dense(self.inputs, hidden_size, activation=tf.nn.tanh)
         #This condenses the hidden layer into a single layer
         self.prediction_raw = tf.layers.dense(self.hidden, 1)
         #This scales the number into an actual prediction on a scale of 1 to 10
@@ -124,6 +124,9 @@ class Model:
         self.loss = tf.losses.absolute_difference(labels = self.actual_rating, predictions = self.prediction)
         #This is where we actually train the machine Ito become smarter
         self.train = optimizer.minimize(self.loss)
+        for var in vars(self):
+            if isinstance(var, tf.Tensor):
+                print(var)
 
 
     #Just like the name states, this is how the machine predicts what movies the user will like
@@ -133,20 +136,18 @@ def Predict(model, input_features):
         predictions = sess.run(model.prediction, {model.inputs: input_features})
         return predictions
 
-def Train2ElectricBoogaloo(load=True):
+def Train2ElectricBoogaloo(load=True, folder_path = './final_movie_app/', num_epochs = 10000 + 1):
     train_loss_results = []
     ## train_accuracy_results = []
-    num_epochs = 10000 + 1  # The amount of epochs the code will run for
     save_frequency = 50
-    model = Model()
-    saver = tf.train.Saver()
-    folder_path = './movie_app/'
-
+    folder_path = os.path.abspath(folder_path)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
+    model = Model()
+    saver = tf.train.Saver()
+    model_path = folder_path + '/pg-checkpoint'
     with tf.Session() as sess:
-
         training_best = 0
         min_loss = 10
         try:
@@ -190,12 +191,12 @@ def Train2ElectricBoogaloo(load=True):
             min_loss = min(min_loss, loss)
 
             if epoch % save_frequency == 0 and epoch != 0:
-                saver.save(sess, folder_path + 'pg-checkpoint', epoch)
+                saver.save(sess, model_path, epoch)
 
         print('Training finished.')
-        saver.save(sess, folder_path + './trained_model/', epoch)
+        saver.save(sess, model_path, epoch)
         print('Model was restored from saved training data.')
-        print('The model data was saved to /trained_model/.')
+        print('The model data was saved to "{}".'.format(model_path))
         print("The lowest loss value was: " + str(min_loss))
 
 
@@ -220,84 +221,6 @@ def predictFromFile(filepath):
                     first = False
     return movie_list
 
-# # Predictions, may or may not be debug code
-# predictions = model(features)
-# print("    Predictions: {}".format(predictions))
-#
-# # IDK what this does, and at this point I'm too afraid to find out
-# print("softmax: {}".format(tf.nn.softmax(predictions[:5])))
-#
-# print("Prediction: {}".format(tf.argmax(predictions, axis=1)))
-# print("    Labels: {}".format(labels))
-
-# def loss(model, x, y):
-#     y_ = model(x)
-#     # Reshapes the tensor returned by the model from a (64, 1) tensor to an (n,) array, usually a (64,) tensor but n is set to
-#     # be the shape length of y, to avoid runtime errors once the final batch is reached, as there won't be enough entries to fill
-#     # up the (64, ) shape, but for example it would be a (23, ) or (51, ) tensor.
-#     y_ = tf.reshape(y_, shape=(tf.shape(y)[0], ))
-#
-#     return tf.losses.absolute_difference(labels=y, predictions=y_)
-#
-# # defines l as the loss
-# l = loss(model, features, labels)
-# print("Loss test: {}".format(l))
-#
-# # No idea what the gradient is
-# def grad(model, inputs, targets):
-#     with tf.GradientTape() as tape:
-#         loss_value = loss(model, inputs, targets)
-#     return loss_value, tape.gradient(loss_value, model.trainable_variables)
-#
-# optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.0001)  # Optimizer
-#
-# global_step = tf.train.get_or_create_global_step() # dunno
-#
-# loss_value, grads = grad(model, features, labels) # double dunno
-
-# print("Step: {}, Initial Loss: {}".format(global_step.numpy(),
-#                                           loss_value.numpy()))
-#
-# optimizer.apply_gradients(zip(grads, model.variables), global_step) # triple dunno
-#
-# print("Step: {},         Loss: {}".format(global_step.numpy(),
-#                                           loss(model, features, labels).numpy()))
-
-## Note: Rerunning this cell uses the same model variables
-model = Model()
-saver = tf.train.Saver()
-folder_path = './trained_model/'
-
-
-# keep results for plotting
-train_loss_results = []
-
-
-
-
-
-#predict_dataset = tf.contrib.data.make_csv_dataset()  # Load dataset from MoviesML.tsv
-#     ['/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv'],
-#     batch_size,
-#     column_names=columns,
-#     label_name=label_name,
-#     field_delim="\t",
-#     shuffle=True,  # Shuffles data to make sure that the program doesn't take in movie id as a value relevant to the score
-#     num_epochs=1)
-#
-# predict_dataset = predict_dataset.map(pack_features_vector)
-#
-# next_predicted = predict_dataset.make_one_shot_iterator().get_next()
-# #print(next_predicted)
-# #with tf.Session() as sess:
-#     #features = sess.run(next_predicted)
-# print(Predict(model, next_predicted[0]))
-#
-# # for line in predict_dataset:
-# #     score = Predict(model, line)
-# #     print(score)
-#prediction_file = ["/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLShort3.tsv"]
-
 
 def predict(input_prediction):
     # (1,31) matrix
@@ -309,7 +232,6 @@ def predict(input_prediction):
     return prediction[0]
 
 
-# Train2ElectricBoogaloo()
 # predictFromFile(path)
 # with tf.Session() as sess:
 #     # check our folder for saved checlpoints
@@ -352,30 +274,54 @@ def predict(input_prediction):
 
 
 #Find where I am saving and loading the model. It cannot find the right path YET
-def suggest_titles(model_path = 'trained_model/trained_model/', number_recomendations = 10, movies_csv = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'):
+def suggest_titles(folder_path = './final_movie_app/', number_recomendations = 10, movies_csv = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv', batch_size=10000):
     movies_csv = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'
     movies = pd.read_csv(movies_csv, sep="\t")
     movies.drop("averageRating", axis=1, inplace=True)
+    folder_path = os.path.abspath(folder_path)
     with tf.Session() as sess:
         recomendations = []
-        saver = tf.train.Saver()
         model = Model()
-        checkpoint = tf.train.get_checkpoint_state(model_path)
-        saver.restore(sess, checkpoint.model_checkpoint_path)
-        for index, row in movies.iterrows():
+        saver = tf.train.Saver()
+        load = True
+        # sess.run(tf.global_variables_initializer())
+        try:
+            if not load:
+                raise Exception('Do not load')
+            checkpoint = tf.train.get_checkpoint_state(folder_path)
+            saver.restore(sess, checkpoint.model_checkpoint_path)
+            print('Model restored from saved training data.')
+        except Exception as e:
+            print('Error:\n',e)
+            print('Initialized new model')
+        examples = []
+        items = list(movies.iterrows())
+        for index, row in items:
             row = row.tolist()
-            feed = {
-              model.inputs: [row]
-            } #Curly braces = dictionary
-            predicted_rating = sess.run(model.prediction, feed)
-            suggestion = (row[0], predicted_rating)
-            recomendations.append(suggestion)
-            if len(recomendations) > number_recomendations:
-                recomendations = sorted(recomendations,
-                                        lambda suggestion: suggestion[1],
-                                        reverse= True
-                                        )[: number_recomendations]
+            examples.append(row)
+            if len(examples) >= batch_size or index == items[-1][0]:
+                feed = {
+                  model.inputs: examples
+                } #Curly braces = dictionary
+                predicted_rating = sess.run(model.prediction, feed)
+                suggestions = [(examples[i][0], predicted_rating[i]) for i in range(len(examples))]
+                recomendations += suggestions
+                if len(recomendations) > number_recomendations:
+                    recomendations = sorted(recomendations,key=lambda suggestion: -suggestion[1],
+                                            )[: number_recomendations]
+                # print('Current predictions:')
+                examples = []
+                # for index, suggestion in enumerate(recomendations):
+                #     print(index,':',suggestion)
         return recomendations
-suggestions = suggest_titles()
-for sug in suggestions:
-    print(sug)
+
+
+train = True
+if train:
+    Train2ElectricBoogaloo(num_epochs=100000)
+else:
+    suggestions = suggest_titles()
+    print('Suggested title id:')
+    for sug in suggestions:
+        id, rating = sug
+        print('Title id: ', id, '\t\tRating: ', rating)
