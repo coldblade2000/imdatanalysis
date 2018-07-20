@@ -7,6 +7,10 @@ import tensorflow as tf
 
 import Recommender.Recommender as rec
 
+from difflib import get_close_matches
+
+import pandas as pd
+
 # tfe.enable_eager_execution()
 
 #sess_cpu = tf.Session(config = tf.ConfigProto(device_count={'GPU': 0}))
@@ -132,7 +136,7 @@ def Predict(model, input_features):
 def Train2ElectricBoogaloo(load=True):
     train_loss_results = []
     ## train_accuracy_results = []
-    num_epochs = 100000 + 1  # The amount of epochs the code will run for
+    num_epochs = 10000 + 1  # The amount of epochs the code will run for
     save_frequency = 50
     model = Model()
     saver = tf.train.Saver()
@@ -192,7 +196,7 @@ def Train2ElectricBoogaloo(load=True):
         saver.save(sess, folder_path + './trained_model/', epoch)
         print('Model was restored from saved training data.')
         print('The model data was saved to /trained_model/.')
-        print("Epoch beneath 1: " + str(training_best) + " times. The lowest value was: " + str(min_loss))
+        print("The lowest loss value was: " + str(min_loss))
 
 
 def predictFromFile(filepath):
@@ -305,7 +309,7 @@ def predict(input_prediction):
     return prediction[0]
 
 
-Train2ElectricBoogaloo()
+# Train2ElectricBoogaloo()
 # predictFromFile(path)
 # with tf.Session() as sess:
 #     # check our folder for saved checlpoints
@@ -345,3 +349,33 @@ Train2ElectricBoogaloo()
 # axes[1].set_ylabel("Loss", fontsize=14)
 # axes[1].set_xlabel("Epoch", fontsize=14)
 # axes[1].plot(train_loss_results)
+
+
+#Find where I am saving and loading the model. It cannot find the right path YET
+def suggest_titles(model_path = 'trained_model/trained_model/', number_recomendations = 10, movies_csv = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'):
+    movies_csv = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesML.tsv'
+    movies = pd.read_csv(movies_csv, sep="\t")
+    movies.drop("averageRating", axis=1, inplace=True)
+    with tf.Session() as sess:
+        recomendations = []
+        saver = tf.train.Saver()
+        model = Model()
+        checkpoint = tf.train.get_checkpoint_state(model_path)
+        saver.restore(sess, checkpoint.model_checkpoint_path)
+        for index, row in movies.iterrows():
+            row = row.tolist()
+            feed = {
+              model.inputs: [row]
+            } #Curly braces = dictionary
+            predicted_rating = sess.run(model.prediction, feed)
+            suggestion = (row[0], predicted_rating)
+            recomendations.append(suggestion)
+            if len(recomendations) > number_recomendations:
+                recomendations = sorted(recomendations,
+                                        lambda suggestion: suggestion[1],
+                                        reverse= True
+                                        )[: number_recomendations]
+        return recomendations
+suggestions = suggest_titles()
+for sug in suggestions:
+    print(sug)

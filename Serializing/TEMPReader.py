@@ -3,6 +3,9 @@ import json
 
 import numpy as np
 import pandas as pd
+import requests
+
+import scrapeImage
 
 # count = 28
 genreList = ['Action', 'Adult', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'Game-Show', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'News', 'Reality-TV', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']
@@ -271,8 +274,16 @@ def trimMoviesBilling2():
     titleDF.drop("originalTitle", axis=1, inplace=True)
     titleDF.drop("runtimeMinutes", axis=1, inplace=True)
 
+
+def getPosters():
+    titleDF = pd.DataFrame.from_csv("../sheets/top30scifi.tsv", sep="\t")
+    for title in titleDF.index:
+        r = requests.get(scrapeImage.getPosterURL(str(title)), allow_redirects=True)
+        open(str(title) + ".jpg", 'wb').write(r.content)
+
+
 # titleDF= pd.DataFrame.from_csv("../sheets/Processed/TitlesFull.tsv")
-onlyrand5000()  # Add empty 'billing' column to spreadsheet
+getPosters()  # Add empty 'billing' column to spreadsheet
 # titleDF['billing'] = np.nan
 # titleDF['billing'] = titleDF['billing'].astype(object)
 

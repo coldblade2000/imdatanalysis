@@ -101,8 +101,10 @@ path = '/home/student/PycharmProjects/imdatanalysis/sheets/Processed/MoviesMLSho
 #   #tf.keras.layers.Dense(850, activation=tf.nn.tanh, input_shape=(INPUT_SIZE,)),#under1.1 = 231 min = 1.089
 # ])
 
+#Path = /home/student/PycharmProjects/imdatanalysis/sheets/Processed/usertitleratingsML.tsv
+
 class Model:
-    def __init__(self, input_size=INPUT_SIZE, hidden_size = 800, rating_scale=10,
+    def __init__(self, input_size=INPUT_SIZE, hidden_size = 1100, rating_scale=10,
                  optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.00005)):
         #These are the inputs that have been provided by Diego
         self.inputs = tf.placeholder(tf.float32, [None, input_size])
@@ -132,7 +134,7 @@ def Predict(model, input_features):
 def Train2ElectricBoogaloo(load=True):
     train_loss_results = []
     ## train_accuracy_results = []
-    num_epochs = 100000 + 1  # The amount of epochs the code will run for
+    num_epochs = 50000 + 1  # The amount of epochs the code will run for
     save_frequency = 50
     model = Model()
     saver = tf.train.Saver()
@@ -192,7 +194,7 @@ def Train2ElectricBoogaloo(load=True):
         saver.save(sess, folder_path + './trained_model/', epoch)
         print('Model was restored from saved training data.')
         print('The model data was saved to /trained_model/.')
-        print("Epoch beneath 1: " + str(training_best) + " times. The lowest value was: " + str(min_loss))
+        print("The lowest loss value was: " + str(min_loss))
 
 
 def predictFromFile(filepath):
