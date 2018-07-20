@@ -1,12 +1,8 @@
-import io
-from urllib.request import urlopen
-
-from PIL import Image
 from bs4 import BeautifulSoup as bSoup
 from requests import get
 
 
-def getthing(titleid):
+def getPosterURL(titleid):
     url = "https://www.imdb.com/title/" + titleid
     html = get(url)
     soup = bSoup(html.text, 'html.parser')
@@ -23,9 +19,9 @@ def getthing(titleid):
     finalstr = ",".join(split)
     print(finalstr)
     return finalstr
-
-
-fd = urlopen(getthing("tt0317219"))
-image_file = io.BytesIO(fd.read())
-im = Image.open(image_file)
-im.show()
+#
+#
+# fd = urlopen(getPosterURL("tt0317219"))
+# image_file = io.BytesIO(fd.read())
+# im = Image.open(image_file)
+# im.show()
